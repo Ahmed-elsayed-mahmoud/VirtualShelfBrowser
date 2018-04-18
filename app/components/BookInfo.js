@@ -24,8 +24,8 @@ class BookInfo extends Component {
     render() {
         let alternate = 'https://cdn0.iconfinder.com/data/icons/thin-photography/57/thin-367_photo_image_wall_unavailable_missing-512.png';
 
-        // let book = this.props.book;
-        let book = {
+        let book = this.props.book;
+        /*let book = {
             title: 'the title',
             ISBN: '123asda123123',
             imageUrl: null,
@@ -38,11 +38,11 @@ class BookInfo extends Component {
             authors: ['Dr. Zizo', 'Prof. Adel'],
             storesLocations: ['ELPOP bookstore'],
             reviews: []
-        };
+        };*/
 
         return (
-            <div>
-                <Button bsStyle="info" bsSize="large" onClick={this.handleShow}>
+            <div className="book-modal">
+                <Button className="book-modal-btn" bsStyle="info" bsSize="large" onClick={this.handleShow}>
                     Book Info
                 </Button>
 
@@ -73,7 +73,7 @@ class BookInfo extends Component {
                             <Col xs={12} md={7}>
                                 <div className="panel panel-info">
                                     <div className="panel-heading">Authors</div>
-                                    <div className="panel-body">{book.authors.join(", ")}</div>
+                                    <div className="panel-body">{(book.authors !== undefined)? book.authors.join(", ") : ""}</div>
                                 </div>
                                 <div className="panel panel-info">
                                     <div className="panel-heading">Description</div>

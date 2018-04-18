@@ -1,7 +1,6 @@
 import BookQuery from '../model/BookQuery';
-import BookQuery from '../model/Book';
 import APIQueryBuilder from './APIQueryBuilder';
-
+import Book from "../model/Book";
 
 class Controller {
     constructor() {
@@ -12,6 +11,11 @@ class Controller {
 
     searchFor(bookQuery) {
       	// return list of books
+        this.apiBuilder.setQuery(bookQuery);
+        return this.apiBuilder.callAPI()
+            .then(json => {
+                return this.parseResult(json);
+            });
     }
 
     filterBy(bookQuery) {
@@ -24,6 +28,26 @@ class Controller {
 
     parseResult(json) {
     	// return list of books
+        let { items }  = json;
+        items.forEach( item => {
+            console.log(item);
+            let book = new Book();
+            book.title = item.volumeInfo.title;
+            if (item.volumeInfo.industryIdentifiers !== undefined) {
+                book.ISBN = item.volumeInfo.industryIdentifiers[0].identifier;
+            }
+            book.publisherName = item.volumeInfo.publisher;
+            book.authors = item.volumeInfo.authors;
+            book.description = item.volumeInfo.description;
+            if (item.volumeInfo.imageLinks !== undefined) {
+                book.imageUrl = item.volumeInfo.imageLinks.thumbnail;
+            }
+            book.numberOfPages = item.volumeInfo.pageCount;
+            book.publicationDate = item.volumeInfo.publishedDate;
+            book.readUrl = item.volumeInfo.infoLink;
+            this.books.push(book);
+        });
+        return this.books;
     }
 
     addFavorite(book) {

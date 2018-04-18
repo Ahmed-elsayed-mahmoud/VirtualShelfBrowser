@@ -1,9 +1,9 @@
 import BookQuery from '../model/BookQuery';
 
 class APIQueryBuilder {
-    static BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
 
     constructor() {
+        this.BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
         this.bookQuery = new BookQuery();
     }
 
@@ -12,10 +12,10 @@ class APIQueryBuilder {
     }
 
     callAPI() {
-        let jsonResponse = null;
-        fetch(`${APIQueryBuilder.BASE_URL}${this.bookQuery.title}`, { method: 'GET' })
-            .then(response => jsonResponse = response.json());
-        return jsonResponse;
+        return fetch(`${this.BASE_URL}${this.bookQuery.title}&intitle:${this.bookQuery.title}&orderBy:relevance&maxResults=40&key=AIzaSyAyxCsgKzQ3pLUUhl2YkozLi8UJQI55Vd4`, { method: 'GET' })
+            .then(response => {
+                return response.json();
+            });
     }
 }
 

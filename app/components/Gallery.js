@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import BookInfo from './BookInfo';
 
 class Gallery extends Component {
     render() {
@@ -8,12 +9,15 @@ class Gallery extends Component {
             <div>
                 {
                     this.props.items.map((item, index) => {
-                        let { title, imageLinks, infoLink } = item.volumeInfo;
+                        let { title, imageUrl, readUrl } = item;
                         return (
-                            <a key={index} className="book" href={infoLink} target="_blank">
-                                <img src={imageLinks !== undefined ? imageLinks.thumbnail : alternate} className="book-img" alt="book"/>
-                                <div className="book-text">{title}</div>
-                            </a>
+                            <div className="book" key={index}>
+                                <a href={readUrl} target="_blank">
+                                    <img src={imageUrl !== '' ? imageUrl : alternate} className="book-img" alt="book"/>
+                                    <div className="book-text">{title}</div>
+                                </a>
+                                <BookInfo book={item}/>
+                            </div>
                         )
                     })
                 }
