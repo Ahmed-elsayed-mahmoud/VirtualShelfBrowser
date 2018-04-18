@@ -27,7 +27,7 @@ class Global extends Component {
         return (
             // we are using className instead of class as in html because class is a reserved word in JavaScript
             <div className="Global">
-                <h2>Book Explorer</h2>
+                <h2>Virtual Shelf</h2>
                 <FormGroup>
                     <InputGroup>
                         <FormControl type="text"

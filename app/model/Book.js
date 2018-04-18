@@ -6,7 +6,7 @@ class Book {
         this.ISBN = '';
         this.imageUrl = '';
         this.description = '';
-        this.rate = 0.0l
+        this.rate = 0.0;
         this.publisherName = '';
         this.publicationDate = '';
         this.numberOfPages = 0;
