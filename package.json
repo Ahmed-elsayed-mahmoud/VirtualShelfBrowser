@@ -42,6 +42,7 @@
     "karma-webpack": "^1.6.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.23.0"
+    "babel-runtime": "^6.23.0",
+    "espree": "^3.5.4"
   }
 }

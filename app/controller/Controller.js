@@ -28,7 +28,8 @@ class Controller {
     }
 
     selectBook(ISBN) {
-        // return book
+        // return book reviews
+        return this.apiBuilder.callReviewsAPI(ISBN);
     }
 
     parseResult(json) {
@@ -37,9 +38,18 @@ class Controller {
         items.forEach( item => {
             console.log(item);
             let book = new Book();
+            let valid = false;
             book.title = item.volumeInfo.title;
             if (item.volumeInfo.industryIdentifiers !== undefined) {
-                book.ISBN = item.volumeInfo.industryIdentifiers[0].identifier;
+                let identifiers = item.volumeInfo.industryIdentifiers;
+                for (let i = 0; i < identifiers.length; ++i) {
+                    console.log('7amada');
+                    if (identifiers[i].type == 'ISBN_10') {
+                        book.ISBN = identifiers[i].identifier;
+                        valid = true;
+                        break;
+                    }
+                }
             }
             book.publisherName = item.volumeInfo.publisher;
             book.authors = item.volumeInfo.authors;
@@ -51,7 +61,7 @@ class Controller {
             book.publicationDate = item.volumeInfo.publishedDate;
             book.readUrl = item.volumeInfo.infoLink;
             book.rate =  Math.round((3 + Math.random() * 2) * 10) / 10;
-            if (item.volumeInfo.industryIdentifiers !== undefined) {
+            if (valid) {
                 this.books.push(book);
             }
         });

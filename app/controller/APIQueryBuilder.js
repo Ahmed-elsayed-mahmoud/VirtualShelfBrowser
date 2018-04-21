@@ -4,6 +4,7 @@ class APIQueryBuilder {
 
     constructor() {
         this.BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
+        this.BASE_URL_REVIEWS = 'https://www.goodreads.com/book/isbn/';
         this.bookQuery = new BookQuery();
     }
 
@@ -24,6 +25,14 @@ class APIQueryBuilder {
             })
             .catch(error => {
                 return '';
+            });
+    }
+
+    callReviewsAPI(ISBN) {
+        let KEY = 'NwNSlVu7xFWbuomMXJhrzA';
+        return fetch(`${this.BASE_URL_REVIEWS }${ISBN}?key=${KEY}&format=json`, { method: 'GET' })
+            .then(response => {
+                return response.json();
             });
     }
 }

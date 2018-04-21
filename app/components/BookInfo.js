@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Col, Row, Glyphicon, Button } from 'react-bootstrap';
+import Controller from '../controller/Controller';
 
 class BookInfo extends Component {
     constructor(props, context) {
@@ -7,9 +8,11 @@ class BookInfo extends Component {
 
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.controller = new Controller();
 
         this.state = {
-        show: false
+            show: false,
+            reviews: ''
         };
     }
 
@@ -17,8 +20,21 @@ class BookInfo extends Component {
         this.setState({ show: false });
     }
 
+    /*getReviewsView(isbn) {
+        this.BASE_URL = 'https://www.goodreads.com/book/isbn/'
+        this.KEY = 'NwNSlVu7xFWbuomMXJhrzA';
+        return fetch(`${this.BASE_URL}${isbn}?key=${this.KEY}&format=json`, { method: 'GET' })
+            .then(response => {
+                return response.json();
+            });
+    }*/
+
     handleShow() {
         this.setState({ show: true });
+        this.controller.selectBook(this.props.book.ISBN)
+            .then(json => {
+                this.setState({ reviews: json["reviews_widget"]});
+            });
     }
 
     render() {
@@ -78,6 +94,12 @@ class BookInfo extends Component {
                                 <div className="panel panel-info">
                                     <div className="panel-heading">Description</div>
                                     <div className="panel-body">{book.description}</div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <div className="container" dangerouslySetInnerHTML={{__html: this.state.reviews}}>
                                 </div>
                             </Col>
                         </Row>
