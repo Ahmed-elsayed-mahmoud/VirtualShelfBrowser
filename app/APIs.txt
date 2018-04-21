@@ -1,0 +1,70 @@
+Using Google books API:
+------------------------
+Search for a book by its title (example harry potter)
+
+Request:
+https://www.googleapis.com/books/v1/volumes?q=harry+potter&intitle:harry+potter&orderBy:relevance&key=AIzaSyAyxCsgKzQ3pLUUhl2YkozLi8UJQI55Vd4
+
+Response (JSON) contains:
+Title
+Authors
+Publisher
+Publication date
+description
+ISBN (10 and 13)
+Category
+Image links
+Language
+Preview link
+-----------------------------------------------------------------------------------------
+
+Using Goodreads API:
+---------------------------------
+Get information about a book given its ISBN.
+There is a field called reviews_widget from the response which
+is a div element with its styling and a link to preview reviews from goodreads
+
+Request:
+https://www.goodreads.com/book/isbn/9771423738?key=NwNSlVu7xFWbuomMXJhrzA
+
+Response (XML):
+ID
+Title
+ISBN (10 and 13)
+Image URL
+Small image
+Publication year
+Publication month
+Publication day
+Publisher
+Language
+Description
+Average rating
+Rating count
+Number of pages
+Authors
+reviews widget (div element to embed within your page that showes reviews)
+Buy links (list of links with online stores -> see note down for details)
+Similar books (list of similar books)
+
+Notes:
+To use buy links you need to append ?book_id={ID} at the end of the given url 
+for example
+the returned link to buy from amazon is: https://www.goodreads.com/book_link/follow/1 
+and book ID from response is 49869
+Then the redirect link to amazon is: https://www.goodreads.com/book_link/follow/1?book_id=49869
+I don't know why they didn't handle this!
+
+
+---------------------------------------------------------------------------------------------
+
+So what i suggest is using Google API for title search as it will return some useful
+books but only store ISBNs from them and then use Goodreads API to get
+information about these ISBNs.
+
+You can test above requests in postman or whatever to see the results exactly.
+
+There is an API that gets all libraries locations that have the exact 
+edition of the book using its ISBN called (worldcat oclc) 
+but it's for commertial use only i tried to request an API key 
+but it was refused so if you wanna try go ahead.
