@@ -12,9 +12,18 @@ class APIQueryBuilder {
     }
 
     callAPI() {
+        if (this.bookQuery.title === '') {
+            console.log("API:No Search");
+            return new Promise(function(resolve, reject) {
+                resolve("");
+            });
+        }
         return fetch(`${this.BASE_URL}${this.bookQuery.title}&intitle:${this.bookQuery.title}&orderBy:relevance&maxResults=40&key=AIzaSyAyxCsgKzQ3pLUUhl2YkozLi8UJQI55Vd4`, { method: 'GET' })
             .then(response => {
                 return response.json();
+            })
+            .catch(error => {
+                return '';
             });
     }
 }

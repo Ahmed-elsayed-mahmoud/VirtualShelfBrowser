@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "test": "karma start"
   },
   "babel": {
     "presets": [
@@ -32,7 +33,13 @@
     "react-bootstrap": "^0.31.1",
     "react-dom": "^15.6.1",
     "webpack": "^3.3.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack-dev-server": "^2.5.1",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.13.2",
+    "karma-jasmine": "^0.3.5",
+    "jasmine": "^2.2.1",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-webpack": "^1.6.0"
   },
   "dependencies": {
     "babel-runtime": "^6.23.0"

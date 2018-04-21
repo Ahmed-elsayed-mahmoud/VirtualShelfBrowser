@@ -14,6 +14,11 @@ class Controller {
         this.apiBuilder.setQuery(bookQuery);
         return this.apiBuilder.callAPI()
             .then(json => {
+                if (json === '') {
+                    console.log("Controller:No Search");
+                    this.books = [];
+                    return this.books;
+                }
                 return this.parseResult(json);
             });
     }
@@ -45,7 +50,10 @@ class Controller {
             book.numberOfPages = item.volumeInfo.pageCount;
             book.publicationDate = item.volumeInfo.publishedDate;
             book.readUrl = item.volumeInfo.infoLink;
-            this.books.push(book);
+            book.rate =  Math.round((3 + Math.random() * 2) * 10) / 10;
+            if (item.volumeInfo.industryIdentifiers !== undefined) {
+                this.books.push(book);
+            }
         });
         return this.books;
     }
