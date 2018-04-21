@@ -2,8 +2,7 @@ import Book from '../model/Book';
 import BookQuery from '../model/BookQuery';
 import APIQueryBuilder from '../controller/APIQueryBuilder';
 import Controller from '../controller/Controller';
-import React from 'react'
-
+import fetch from 'isomorphic-fetch';
 
 describe('API Query Builder', () => {
 

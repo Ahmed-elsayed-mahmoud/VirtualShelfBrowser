@@ -1,5 +1,4 @@
 import BookQuery from '../model/BookQuery';
-import fetch from 'isomorphic-fetch';
 
 class APIQueryBuilder {
 
