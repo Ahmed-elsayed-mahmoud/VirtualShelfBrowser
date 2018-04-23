@@ -5,14 +5,12 @@ import Book from "../model/Book";
 class Controller {
     constructor() {
     	this.books = []; // list of books
-        this.bookQuery = new BookQuery();
         this.apiBuilder = new APIQueryBuilder();
     }
 
     searchFor(bookQuery) {
       	// return list of books
-        this.apiBuilder.setQuery(bookQuery);
-        return this.apiBuilder.callAPI()
+        return this.apiBuilder.callAPI(bookQuery)
             .then(json => {
                 if (json === '') {
                     console.log("Controller:No Search");
@@ -35,6 +33,8 @@ class Controller {
     parseResult(json) {
     	// return list of books
         let { items }  = json;
+        console.log(items);
+        this.books = [];
         items.forEach( item => {
             console.log(item);
             let book = new Book();
@@ -43,7 +43,6 @@ class Controller {
             if (item.volumeInfo.industryIdentifiers !== undefined) {
                 let identifiers = item.volumeInfo.industryIdentifiers;
                 for (let i = 0; i < identifiers.length; ++i) {
-                    console.log('7amada');
                     if (identifiers[i].type == 'ISBN_10') {
                         book.ISBN = identifiers[i].identifier;
                         valid = true;
@@ -60,7 +59,8 @@ class Controller {
             book.numberOfPages = item.volumeInfo.pageCount;
             book.publicationDate = item.volumeInfo.publishedDate;
             book.readUrl = item.volumeInfo.infoLink;
-            book.rate =  Math.round((3 + Math.random() * 2) * 10) / 10;
+            book.rate = (item.volumeInfo.averageRating !== undefined)?
+                item.volumeInfo.averageRating : Math.round((3 + Math.random() * 2) * 10) / 10;
             if (valid) {
                 this.books.push(book);
             }
@@ -69,10 +69,6 @@ class Controller {
     }
 
     addFavorite(book) {
-
-    }
-
-    updateViews() {
 
     }
 

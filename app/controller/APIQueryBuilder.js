@@ -5,21 +5,18 @@ class APIQueryBuilder {
     constructor() {
         this.BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
         this.BASE_URL_REVIEWS = 'https://www.goodreads.com/book/isbn/';
-        this.bookQuery = new BookQuery();
+        this.GOOGLE_KEY = 'AIzaSyAyxCsgKzQ3pLUUhl2YkozLi8UJQI55Vd4';
+        this.GOODREADS_KEY = 'NwNSlVu7xFWbuomMXJhrzA';
     }
 
-    setQuery(bookQuery) {
-        this.bookQuery = bookQuery;
-    }
-
-    callAPI() {
-        if (this.bookQuery.title === '') {
+    callAPI(bookQuery) {
+        if (bookQuery.title === '') {
             console.log("API:No Search");
             return new Promise(function(resolve, reject) {
                 resolve("");
             });
         }
-        return fetch(`${this.BASE_URL}${this.bookQuery.title}&intitle:${this.bookQuery.title}&orderBy:relevance&maxResults=40&key=AIzaSyAyxCsgKzQ3pLUUhl2YkozLi8UJQI55Vd4`, { method: 'GET' })
+        return fetch(`${this.BASE_URL}intitle:${bookQuery.title}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`, { method: 'GET' })
             .then(response => {
                 return response.json();
             })
@@ -29,8 +26,7 @@ class APIQueryBuilder {
     }
 
     callReviewsAPI(ISBN) {
-        let KEY = 'NwNSlVu7xFWbuomMXJhrzA';
-        return fetch(`${this.BASE_URL_REVIEWS }${ISBN}?key=${KEY}&format=json`, { method: 'GET' })
+        return fetch(`${this.BASE_URL_REVIEWS }${ISBN}?key=${this.GOODREADS_KEY}&format=json`, { method: 'GET' })
             .then(response => {
                 return response.json();
             });

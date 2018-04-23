@@ -11,44 +11,20 @@ class Global extends Component {
         this.state = {
             query: '',
             items: []
-        }
+        };
+        this.controller = new Controller();
     }
 
     search() {
-        /*const BASE_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
-        fetch(`${BASE_URL}${this.state.query}&intitle:${this.state.query}&orderBy:relevance&maxResults=40&key=AIzaSyAyxCsgKzQ3pLUUhl2YkozLi8UJQI55Vd4`, { method: 'GET' })
-            .then(response => response.json())
-            .then(json => {
-                let { items }  = json;
-                this.setState({ items });
-            });*/
-        let controller = new Controller();
         let bookQuery = new BookQuery();
         bookQuery.title = this.state.query;
-        controller.searchFor(bookQuery)
+        this.controller.searchFor(bookQuery)
             .then(books => {
                this.setState({ items: books });
             });
-        /*let book = {
-            title: 'the title',
-            ISBN: '123asda123123',
-            imageUrl: null,
-            description: 'aasdas;ldkas;lkdl;asd\nklaldsadklasdjklasdaslkdklasjdklasjkldjklasdlk\nkladklas',
-            rate: 0.0,
-            publisherName: 'Hamada El LOL',
-            publicationDate: '12/3/2019',
-            numberOfPages: 0,
-            readUrl: '',
-            authors: ['Dr. Zizo', 'Prof. Adel'],
-            storesLocations: ['ELPOP bookstore'],
-            reviews: []
-        };
-        let items = [book, book, book, book, book, book, book, book];
-        this.setState({ items });*/
     }
 
     render() {
-    	console.log(this.state.items);
         return (
             // we are using className instead of class as in html because class is a reserved word in JavaScript
             <div className="Global">
