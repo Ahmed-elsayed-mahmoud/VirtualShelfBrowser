@@ -1,4 +1,3 @@
-import BookQuery from '../model/BookQuery';
 
 class APIQueryBuilder {
 
@@ -10,18 +9,48 @@ class APIQueryBuilder {
     }
 
     callAPI(bookQuery) {
-        if (bookQuery.title === '') {
-            console.log("API:No Search");
+        if (bookQuery.title === '' && bookQuery.ISBN === ''
+            && bookQuery.authorName === '' && bookQuery.publisherName === '') {
             return new Promise(function(resolve, reject) {
                 resolve("");
             });
         }
-        return fetch(`${this.BASE_URL}intitle:${bookQuery.title}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`, { method: 'GET' })
+        let query = `${this.BASE_URL}${bookQuery.title}`;
+        let addedParameters = false;
+        if (bookQuery.title !== '') {
+            addedParameters = true;
+        }
+        if (bookQuery.ISBN !== '') {
+            if (addedParameters) {
+                query += '+';
+            }
+            query += 'isbn:' + bookQuery.ISBN;
+            addedParameters = true;
+        }
+        if (bookQuery.authorName !== '') {
+            if (addedParameters) {
+                query += '+';
+            }
+            query += 'inauthor:' + bookQuery.authorName;
+            addedParameters = true;
+        }
+        if (bookQuery.publisherName !== '') {
+            if (addedParameters) {
+                query += '+';
+            }
+            query += 'inpublisher:' + bookQuery.publisherName;
+            addedParameters = true;
+        }
+        query = `${query}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`;
+        console.log(query);
+        return fetch(query, { method: 'GET' })
             .then(response => {
                 return response.json();
             })
             .catch(error => {
-                return '';
+                return new Promise(function(resolve, reject) {
+                    resolve("");
+                });
             });
     }
 

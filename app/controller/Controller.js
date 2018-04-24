@@ -1,4 +1,3 @@
-import BookQuery from '../model/BookQuery';
 import APIQueryBuilder from './APIQueryBuilder';
 import Book from "../model/Book";
 
@@ -13,7 +12,7 @@ class Controller {
         return this.apiBuilder.callAPI(bookQuery)
             .then(json => {
                 if (json === '') {
-                    console.log("Controller:No Search");
+                    console.log("Controller: No Results");
                     this.books = [];
                     return this.books;
                 }
@@ -32,18 +31,20 @@ class Controller {
 
     parseResult(json) {
     	// return list of books
-        let { items }  = json;
-        console.log(items);
         this.books = [];
+        console.log(json);
+        if (json.totalItems === 0) {
+            return this.books;
+        }
+        let { items }  = json;
         items.forEach( item => {
-            console.log(item);
             let book = new Book();
             let valid = false;
             book.title = item.volumeInfo.title;
             if (item.volumeInfo.industryIdentifiers !== undefined) {
                 let identifiers = item.volumeInfo.industryIdentifiers;
                 for (let i = 0; i < identifiers.length; ++i) {
-                    if (identifiers[i].type == 'ISBN_10') {
+                    if (identifiers[i].type === 'ISBN_10') {
                         book.ISBN = identifiers[i].identifier;
                         valid = true;
                         break;
