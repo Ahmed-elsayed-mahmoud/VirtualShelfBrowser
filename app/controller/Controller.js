@@ -22,6 +22,28 @@ class Controller {
 
     filterBy(bookQuery) {
         // return list of books
+        if (bookQuery.title === '' && bookQuery.ISBN === '' && bookQuery.authorName === ''
+            && bookQuery.publisherName === '' && bookQuery.rate === 0.0) {
+            return this.books;
+        }
+        let filteredBooks = [];
+        this.books.forEach(book => {
+            if (book.title.includes(bookQuery.title) && book.ISBN.includes(bookQuery.ISBN)
+                && book.publisherName.includes(bookQuery.publisherName)) {
+                let authorFound = false;
+                book.authors.forEach(author => {
+                   if (author.includes(bookQuery.authorName)) {
+                       authorFound = true;
+                   }
+                });
+                if (authorFound) {
+                    if (book.rate >= bookQuery.rate) {
+                        filteredBooks.push(book);
+                    }
+                }
+            }
+        });
+        return filteredBooks;
     }
 
     selectBook(ISBN) {
