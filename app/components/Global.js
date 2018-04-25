@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Row, Col, Badge, Form, FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
+import { Row, Col, Badge, Button } from 'react-bootstrap';
 
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
 import Gallery from './Gallery';
 import FilterPanel from './FilterPanel';
+import AdvancedSearch from './SearchPanel';
 
 class Global extends Component {
 
@@ -22,12 +23,7 @@ class Global extends Component {
         this.controller = Controller.getInstance();
     }
 
-    search() {
-        let bookQuery = new BookQuery();
-        bookQuery.title = this.state.title;
-        bookQuery.ISBN = this.state.ISBN;
-        bookQuery.authorName = this.state.author;
-        bookQuery.publisherName = this.state.publisher;
+    search(bookQuery) {
         this.controller.searchFor(bookQuery)
             .then(books => {
                 console.log(books);
@@ -46,61 +42,7 @@ class Global extends Component {
             // we are using className instead of class as in html because class is a reserved word in JavaScript
             <div className="Global">
                 <h2>Book Shelf Browser</h2>
-                <Form inline>
-                    <FormGroup>
-                        <InputGroup style={{ margin: '2px' }}>
-                            <InputGroup.Addon>Title</InputGroup.Addon>
-                            <FormControl type="text"
-                                         placeholder="Enter Book Title"
-                                         onChange={event => this.setState({title: event.target.value})}
-                                         onKeyPress={event => {
-                                             if (event.key == 'Enter') {
-                                                 this.search();
-                                             }
-                                         }}
-                            />
-                        </InputGroup>
-                        <InputGroup style={{ margin: '2px' }}>
-                            <InputGroup.Addon>Author</InputGroup.Addon>
-                            <FormControl type="text"
-                                         placeholder="Enter Book Author"
-                                         onChange={event => this.setState({author: event.target.value})}
-                                         onKeyPress={event => {
-                                             if (event.key == 'Enter') {
-                                                 this.search();
-                                             }
-                                         }}
-                            />
-                        </InputGroup>
-                        <InputGroup style={{ margin: '2px' }}>
-                            <InputGroup.Addon>ISBN</InputGroup.Addon>
-                            <FormControl type="text"
-                                         placeholder="Enter Book ISBN"
-                                         onChange={event => this.setState({ISBN: event.target.value})}
-                                         onKeyPress={event => {
-                                             if (event.key == 'Enter') {
-                                                 this.search();
-                                             }
-                                         }}
-                            />
-                        </InputGroup>
-                        <InputGroup style={{ margin: '2px' }}>
-                            <InputGroup.Addon>Publisher</InputGroup.Addon>
-                            <FormControl type="text"
-                                         placeholder="Enter Book Publisher"
-                                         onChange={event => this.setState({publisher: event.target.value})}
-                                         onKeyPress={event => {
-                                             if (event.key == 'Enter') {
-                                                 this.search();
-                                             }
-                                         }}
-                            />
-                        </InputGroup>
-                        <Button onClick={() => this.search()} style={{ margin: '2px' }}>
-                            <Glyphicon glyph="search"/> Search
-                        </Button>
-                    </FormGroup>
-                </Form>
+                <AdvancedSearch search={q => this.search(q)}/>
                 <div className={this.state.resultsCount>0?"":"hidden"} style={{ marginTop: '10px' }}>
                     <div className="panel panel-default">
                         <div className="panel-heading">
