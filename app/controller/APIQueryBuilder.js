@@ -9,37 +9,40 @@ class APIQueryBuilder {
     }
 
     callAPI(bookQuery) {
-        if (bookQuery.title === '' && bookQuery.ISBN === ''
-            && bookQuery.authorName === '' && bookQuery.publisherName === '') {
-            return new Promise(function(resolve, reject) {
-                resolve("");
-            });
-        }
-        let query = `${this.BASE_URL}${bookQuery.title}`;
-        let addedParameters = false;
-        if (bookQuery.title !== '') {
-            addedParameters = true;
-        }
-        if (bookQuery.ISBN !== '') {
-            if (addedParameters) {
-                query += '+';
+        let query = this.BASE_URL;
+        if (typeof bookQuery === "string") { // general search
+            if (bookQuery === '') {
+                return new Promise(function(resolve, reject) {
+                    resolve("");
+                });
             }
-            query += 'isbn:' + bookQuery.ISBN;
-            addedParameters = true;
-        }
-        if (bookQuery.authorName !== '') {
-            if (addedParameters) {
-                query += '+';
+            query += bookQuery.replace(/\s+/, "+");
+        } else { // advanced search
+            if (bookQuery.isEmpty()) {
+                return new Promise(function(resolve, reject) {
+                    resolve("");
+                });
             }
-            query += 'inauthor:' + bookQuery.authorName;
-            addedParameters = true;
-        }
-        if (bookQuery.publisherName !== '') {
-            if (addedParameters) {
-                query += '+';
+            let separator = "";
+            if (bookQuery.title !== '') {
+                query += 'intitle:' + bookQuery.title.replace(/\s+/, "+");
+                separator = "&";
             }
-            query += 'inpublisher:' + bookQuery.publisherName;
-            addedParameters = true;
+            if (bookQuery.ISBN !== '') {
+                query += separator;
+                query += 'isbn:' + bookQuery.ISBN.replace(/\s+/, "+");
+                separator = "&";
+            }
+            if (bookQuery.authorName !== '') {
+                query += separator;
+                query += 'inauthor:' + bookQuery.authorName.replace(/\s+/, "+");
+                separator = "&";
+            }
+            if (bookQuery.publisherName !== '') {
+                query += separator;
+                query += 'inpublisher:' + bookQuery.publisherName.replace(/\s+/, "+");
+                separator = "&";
+            }
         }
         query = `${query}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`;
         console.log(query);

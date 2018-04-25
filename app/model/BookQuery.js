@@ -10,6 +10,13 @@ class BookQuery {
         this.topRated = false;
         this.popularBooks = false;
     }
+
+    isEmpty() {
+        return this.title === ''
+                && this.ISBN === ''
+                && this.authorName === ''
+                && this.publisherName === '';
+    }
 }
 
 export default BookQuery;
