@@ -5,17 +5,14 @@ import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
 import Gallery from './Gallery';
 import FilterPanel from './FilterPanel';
-import AdvancedSearch from './SearchPanel';
+import { AdvancedSearch, GeneralSearch } from './SearchPanel';
 
 class Global extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            title: '',
-            ISBN: '',
-            author: '',
-            publisher: '',
+            advanced: false,
             searchID: 0,
             resultsCount: 0,
             items: []
@@ -27,7 +24,11 @@ class Global extends Component {
         this.controller.searchFor(bookQuery)
             .then(books => {
                 console.log(books);
-               this.setState({ items: books, searchID: this.state.searchID + 1, resultsCount: books.length});
+               this.setState({
+                   items: books,
+                   searchID: this.state.searchID + 1,
+                   resultsCount: books.length
+                });
             });
     }
 
@@ -42,7 +43,15 @@ class Global extends Component {
             // we are using className instead of class as in html because class is a reserved word in JavaScript
             <div className="Global">
                 <h2>Book Shelf Browser</h2>
-                <AdvancedSearch search={q => this.search(q)}/>
+                {
+                    this.state.advanced?
+                    <AdvancedSearch search={q => this.search(q)} />
+                    :
+                    <GeneralSearch search={q => this.search(q)} />
+                }
+                <a href="#" onClick={()=> this.setState({advanced: !this.state.advanced})}>
+                    {this.state.advanced? "general search" : "advanced search"}
+                </a>
                 <div className={this.state.resultsCount>0?"":"hidden"} style={{ marginTop: '10px' }}>
                     <div className="panel panel-default">
                         <div className="panel-heading">

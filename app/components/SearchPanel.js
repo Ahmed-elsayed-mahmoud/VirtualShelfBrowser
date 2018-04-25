@@ -75,4 +75,43 @@ class AdvancedSearch extends Component {
     }
 }
 
-export default AdvancedSearch;
+class GeneralSearch extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            query: '',
+        };
+    }
+
+    search() {
+        this.props.search(this.state.query);
+    }
+
+    enterKeyHandler(event) {
+        if (event.key == 'Enter') {
+            this.search();
+        }
+    }
+
+    render() {
+        return (
+            <Form inline>
+                <FormGroup>
+                    <InputGroup style={{ margin: '2px'}}>
+                        <FormControl type="text"
+                                    placeholder="Search"
+                                    onChange={event => this.setState({query: event.target.value})}
+                                    onKeyPress={e => this.enterKeyHandler(e)}
+                        />
+                    </InputGroup>
+                    <Button onClick={() => this.search()} style={{ margin: '2px' }}>
+                        <Glyphicon glyph="search"/> Search
+                    </Button>
+                </FormGroup>
+            </Form>
+        )
+    }
+}
+
+export {AdvancedSearch, GeneralSearch};
