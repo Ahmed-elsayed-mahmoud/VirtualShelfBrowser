@@ -34,6 +34,9 @@ class BookInfo extends Component {
         this.controller.selectBook(this.props.book.ISBN)
             .then(json => {
                 this.setState({ reviews: json["reviews_widget"]});
+            })
+            .catch(error => {
+                this.setState({ reviews: '' });
             });
     }
 

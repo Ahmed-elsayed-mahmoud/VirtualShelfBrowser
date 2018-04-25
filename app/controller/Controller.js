@@ -48,7 +48,7 @@ class Controller {
                 let authorFound = false;
                 let publisherFound = false;
 
-                if (filterQuery.authors.size != 0) {
+                if (filterQuery.authors.size !== 0) {
                     book.authors.forEach(author => {
                         if (filterQuery.authors.has(author)) {
                             authorFound = true;
@@ -58,7 +58,7 @@ class Controller {
                     authorFound = true;
                 }
 
-                if (filterQuery.publishers.size != 0) {
+                if (filterQuery.publishers.size !== 0) {
                     publisherFound = filterQuery.publishers.has(book.publisherName);
                 } else {
                     publisherFound = true;
