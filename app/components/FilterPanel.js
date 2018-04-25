@@ -10,12 +10,11 @@ class FilterMenuItem extends Component {
 
     render() {
         return (
-            <li className="form-check">
-                <label className="form-check-label">
-                    <input type="checkbox" className="form-check-input" style={{margin: '6px'}}
-                            checked={this.props.checked} onChange={() => this.props.onChange()} />
+            <li className="list-group-item list-group-item-action">
+                <a href="#" onClick={() => this.props.onChange()}>
+                    <Glyphicon glyph={this.props.checked?"ok":"unchecked"} style={{margin: '6px'}}/>
                     {this.props.text}
-                </label>
+                </a>
             </li>
         );
     }
@@ -70,9 +69,11 @@ class FilterPanel extends Component {
 
         books.forEach(book => {
             book.authors.forEach(author => {
-                authorsSet[author] = false;
+                if (author)
+                    authorsSet[author] = false;
             });
-            publishersSet[book.publisherName] = false;
+            if (book.publisherName.length > 0)
+                publishersSet[book.publisherName] = false;
         });
 
         this.setState({
@@ -148,7 +149,7 @@ class FilterPanel extends Component {
                     </FormGroup>
                     <FormGroup style={{margin: '2px'}}>
                         <Button onClick={() => this.clear()}>
-                        <span className="glyphicon glyphicon-remove"></span> Clear
+                        <Glyphicon glyph="remove"/> Clear
                         </Button>
                     </FormGroup>
                 </FormGroup>
