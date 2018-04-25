@@ -25,23 +25,24 @@ class APIQueryBuilder {
             }
             let separator = "";
             if (bookQuery.title !== '') {
+                query += separator;
                 query += 'intitle:' + bookQuery.title.replace(/\s+/, "+");
-                separator = "&";
+                separator = "+";
             }
             if (bookQuery.ISBN !== '') {
                 query += separator;
                 query += 'isbn:' + bookQuery.ISBN.replace(/\s+/, "+");
-                separator = "&";
+                separator = "+";
             }
             if (bookQuery.authorName !== '') {
                 query += separator;
                 query += 'inauthor:' + bookQuery.authorName.replace(/\s+/, "+");
-                separator = "&";
+                separator = "+";
             }
             if (bookQuery.publisherName !== '') {
                 query += separator;
                 query += 'inpublisher:' + bookQuery.publisherName.replace(/\s+/, "+");
-                separator = "&";
+                separator = "+";
             }
         }
         query = `${query}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`;
