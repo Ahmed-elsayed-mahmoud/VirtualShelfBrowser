@@ -49,9 +49,10 @@ class Global extends Component {
                     :
                     <GeneralSearch search={q => this.search(q)} />
                 }
-                <a href="#" onClick={()=> this.setState({advanced: !this.state.advanced})}>
-                    {this.state.advanced? "general search" : "advanced search"}
-                </a>
+                <Button bsStyle="link" style={{ marginTop: '-10px' }}
+                        onClick={()=> this.setState({advanced: !this.state.advanced})}>
+                    {this.state.advanced? "General Search" : "Advanced Search"}
+                </Button>
                 <div className={this.state.resultsCount>0?"":"hidden"} style={{ marginTop: '10px' }}>
                     <div className="panel panel-default">
                         <div className="panel-heading">
