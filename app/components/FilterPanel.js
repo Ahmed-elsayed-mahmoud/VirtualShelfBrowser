@@ -10,6 +10,8 @@ class FilterMenuItem extends Component {
         this.state = {
             checked: false
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange() {
@@ -25,9 +27,9 @@ class FilterMenuItem extends Component {
 
     render() {
         return (
-            <li className="list-group-item">
+            <li className="form-check">
                 <label className="form-check-label">
-                    <input type="checkbox" className="form-check-input" onChange={()=>this.handleChange()}></input>
+                    <input type="checkbox" className="form-check-input" onChange={this.handleChange}></input>
                     {this.props.text}
                 </label>
             </li>
@@ -61,8 +63,13 @@ class FilterMenu extends Component {
                     {
                         this.props.items.map((item, index)=>{
                             return (
+<<<<<<< HEAD
                                 <FilterMenuItem add={(t)=>this.add(t)} remove={(t)=>this.remove(t)}
                                             text={item} key={`${this.props.field}${index}`}/>
+=======
+                                <FilterMenuItem add={this.add.bind(this)} remove={this.remove.bind(this)} text={item}
+                                key={`${this.props.field}${index}`}/>
+>>>>>>> a76aec8e21b2bd1b90eea074521fd20bf6383d46
                             );
                         })
                     }

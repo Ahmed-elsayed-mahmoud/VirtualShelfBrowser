@@ -6,7 +6,7 @@ import fetch from 'isomorphic-fetch';
 
 describe('API Query Builder', () => {
 
-  let controller = new Controller();
+  let controller = Controller.getInstance();
    it('should return empty list', () => {
 
        let bookQuery = new BookQuery();
