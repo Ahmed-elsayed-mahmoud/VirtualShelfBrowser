@@ -11,8 +11,8 @@ class FilterMenuItem extends Component {
     render() {
         return (
             <li className="list-group-item list-group-item-action">
-                <a href="#" onClick={() => this.props.onChange()}>
-                    <input type="checkbox" style={{margin: '6px'}}/>
+                <a onClick={() => this.props.onChange()}>
+                    <input type="checkbox" checked={this.props.checked} style={{margin: '6px'}}/>
                     <label>{this.props.text}</label>
                 </a>
             </li>
