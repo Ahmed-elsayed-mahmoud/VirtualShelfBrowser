@@ -12,8 +12,8 @@ class FilterMenuItem extends Component {
         return (
             <li className="list-group-item list-group-item-action">
                 <a href="#" onClick={() => this.props.onChange()}>
-                    <Glyphicon glyph={this.props.checked?"ok":"unchecked"} style={{margin: '6px'}}/>
-                    {this.props.text}
+                    <input type="checkbox" style={{margin: '6px'}}/>
+                    <label>{this.props.text}</label>
                 </a>
             </li>
         );
