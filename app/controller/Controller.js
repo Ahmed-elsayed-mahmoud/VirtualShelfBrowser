@@ -1,10 +1,25 @@
 import APIQueryBuilder from './APIQueryBuilder';
 import Book from "../model/Book";
 
+let _singleton = Symbol();
+
 class Controller {
-    constructor() {
-    	this.books = []; // list of books
+
+    // singletonToken to prevent creating instance using new
+    constructor(singletonToken) {
+        if (_singleton !== singletonToken)
+            throw new Error('Cannot instantiate directly.');
+
+        this.books = []; // list of books
         this.apiBuilder = new APIQueryBuilder();
+    }
+
+    static getInstance() {
+        if(!this[_singleton]) {
+            this[_singleton] = new Controller(_singleton);
+        }
+
+        return this[_singleton];
     }
 
     searchFor(bookQuery) {
@@ -20,26 +35,37 @@ class Controller {
             });
     }
 
-    filterBy(bookQuery) {
+    filterBy(filterQuery) {
         // return list of books
-        if (bookQuery.title === '' && bookQuery.ISBN === '' && bookQuery.authorName === ''
-            && bookQuery.publisherName === '' && bookQuery.rate === 0.0) {
+        if (!filterQuery || filterQuery.isEmpty()) {
             return this.books;
         }
         let filteredBooks = [];
         this.books.forEach(book => {
-            if (book.title.includes(bookQuery.title) && book.ISBN.includes(bookQuery.ISBN)
-                && book.publisherName.includes(bookQuery.publisherName)) {
+            if (book.title.includes(filterQuery.title)
+                && book.ISBN.includes(filterQuery.ISBN)
+                && book.rate >= filterQuery.minRate) {
                 let authorFound = false;
-                book.authors.forEach(author => {
-                   if (author.includes(bookQuery.authorName)) {
-                       authorFound = true;
-                   }
-                });
-                if (authorFound) {
-                    if (book.rate >= bookQuery.rate) {
-                        filteredBooks.push(book);
-                    }
+                let publisherFound = false;
+
+                if (filterQuery.authors.size != 0) {
+                    book.authors.forEach(author => {
+                        if (filterQuery.authors.has(author)) {
+                            authorFound = true;
+                       }
+                    });
+                } else {
+                    authorFound = true;
+                }
+
+                if (filterQuery.publishers.size != 0) {
+                    publisherFound = filterQuery.publishers.has(book.publisherName);
+                } else {
+                    publisherFound = true;
+                }
+
+                if (authorFound && publisherFound) {
+                    filteredBooks.push(book);
                 }
             }
         });
@@ -73,15 +99,15 @@ class Controller {
                     }
                 }
             }
-            book.publisherName = item.volumeInfo.publisher;
-            book.authors = item.volumeInfo.authors;
-            book.description = item.volumeInfo.description;
+            book.publisherName = item.volumeInfo.publisher || '';
+            book.authors = item.volumeInfo.authors || [];
+            book.description = item.volumeInfo.description || '';
             if (item.volumeInfo.imageLinks !== undefined) {
                 book.imageUrl = item.volumeInfo.imageLinks.thumbnail;
             }
             book.numberOfPages = item.volumeInfo.pageCount;
             book.publicationDate = item.volumeInfo.publishedDate;
-            book.readUrl = item.volumeInfo.infoLink;
+            book.readUrl = item.volumeInfo.infoLink || '';
             book.rate = (item.volumeInfo.averageRating !== undefined)?
                 item.volumeInfo.averageRating : Math.round((3 + Math.random() * 2) * 10) / 10;
             if (valid) {
