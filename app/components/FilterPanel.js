@@ -12,7 +12,7 @@ class FilterMenuItem extends Component {
         return (
             <li className="form-check">
                 <label className="form-check-label">
-                    <input type="checkbox" className="form-check-input"
+                    <input type="checkbox" className="form-check-input" style={{margin: '6px'}}
                             checked={this.props.checked} onChange={() => this.props.onChange()} />
                     {this.props.text}
                 </label>
@@ -93,6 +93,12 @@ class FilterPanel extends Component {
         this.props.filter(this.state.filterQuery);
     }
 
+    setTitle(title) {
+        this.state.filterQuery.title = title || '';
+        this.forceUpdate();
+        this.props.filter(this.state.filterQuery);
+    }
+
     minRate(rate) {
         this.state.filterQuery.minRate = rate || 0.0;
         this.forceUpdate();
@@ -116,15 +122,23 @@ class FilterPanel extends Component {
             <Form inline>
                 <FormGroup>
                     Filter by:
-                    <FormGroup>
+                    <FormGroup style={{margin: '2px'}}>
+                        <InputGroup>
+                            <InputGroup.Addon>Title</InputGroup.Addon>
+                            <FormControl type="text" value={this.state.filterQuery.title}
+                                         onChange={event => this.setTitle(event.target.value)}
+                            />
+                        </InputGroup>
+                    </FormGroup>
+                    <FormGroup style={{margin: '2px'}}>
                         <FilterMenu title='Author' items={this.state.authors}
                                     field='authors' onChange={(f,t,c) => this.onChange(f,t,c)} />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup style={{margin: '2px'}}>
                         <FilterMenu title='Publisher Name' items={this.state.publishers}
                                     field='publishers' onChange={(f,t,c) => this.onChange(f,t,c)} />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup style={{margin: '2px'}}>
                         <InputGroup>
                             <InputGroup.Addon>Min Rate</InputGroup.Addon>
                             <FormControl type="number" min="0" max="5" step="0.01" value={this.state.filterQuery.minRate}
@@ -132,7 +146,7 @@ class FilterPanel extends Component {
                                 />
                         </InputGroup>
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup style={{margin: '2px'}}>
                         <Button onClick={() => this.clear()}>
                         <span className="glyphicon glyphicon-remove"></span> Clear
                         </Button>

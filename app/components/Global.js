@@ -46,73 +46,78 @@ class Global extends Component {
             // we are using className instead of class as in html because class is a reserved word in JavaScript
             <div className="Global">
                 <h2>Book Shelf Browser</h2>
-                <FormGroup className="form-inline">
-                    <InputGroup>
-                        <FormControl type="text"
-                                     placeholder="Enter Book Title"
-                                     onChange={event => this.setState({title: event.target.value})}
-                                     onKeyPress={event => {
-                                         if (event.key == 'Enter') {
-                                             this.search();
-                                         }
-                                     }}
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <FormControl type="text"
-                                     placeholder="Enter Book Author"
-                                     onChange={event => this.setState({author: event.target.value})}
-                                     onKeyPress={event => {
-                                         if (event.key == 'Enter') {
-                                             this.search();
-                                         }
-                                     }}
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <FormControl type="text"
-                                     placeholder="Enter Book ISBN"
-                                     onChange={event => this.setState({ISBN: event.target.value})}
-                                     onKeyPress={event => {
-                                         if (event.key == 'Enter') {
-                                             this.search();
-                                         }
-                                     }}
-                        />
-                    </InputGroup>
-                    <InputGroup>
-                        <FormControl type="text"
-                                     placeholder="Enter Book Publisher"
-                                     onChange={event => this.setState({publisher: event.target.value})}
-                                     onKeyPress={event => {
-                                         if (event.key == 'Enter') {
-                                             this.search();
-                                         }
-                                     }}
-                        />
-
-                    </InputGroup>
-                    <Button onClick={() => this.search()}>
-                        <Glyphicon glyph="search"/> Search
-                    </Button>
-                </FormGroup>
-                <div className={this.state.resultsCount>0?"":"hidden"}>
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <Row>
-                            <span className="pull-left">
-                                Results<Badge>{this.state.items.length}</Badge>
-                            </span>
-                            <span className="pull-right">
-                                <FilterPanel books={this.controller.filterBy()}
-                                        filter={this.filter.bind(this)} searchID={this.state.searchID}/>
-                            </span>
-                        </Row>
+                <Form inline>
+                    <FormGroup>
+                        <InputGroup style={{ margin: '2px' }}>
+                            <InputGroup.Addon>Title</InputGroup.Addon>
+                            <FormControl type="text"
+                                         placeholder="Enter Book Title"
+                                         onChange={event => this.setState({title: event.target.value})}
+                                         onKeyPress={event => {
+                                             if (event.key == 'Enter') {
+                                                 this.search();
+                                             }
+                                         }}
+                            />
+                        </InputGroup>
+                        <InputGroup style={{ margin: '2px' }}>
+                            <InputGroup.Addon>Author</InputGroup.Addon>
+                            <FormControl type="text"
+                                         placeholder="Enter Book Author"
+                                         onChange={event => this.setState({author: event.target.value})}
+                                         onKeyPress={event => {
+                                             if (event.key == 'Enter') {
+                                                 this.search();
+                                             }
+                                         }}
+                            />
+                        </InputGroup>
+                        <InputGroup style={{ margin: '2px' }}>
+                            <InputGroup.Addon>ISBN</InputGroup.Addon>
+                            <FormControl type="text"
+                                         placeholder="Enter Book ISBN"
+                                         onChange={event => this.setState({ISBN: event.target.value})}
+                                         onKeyPress={event => {
+                                             if (event.key == 'Enter') {
+                                                 this.search();
+                                             }
+                                         }}
+                            />
+                        </InputGroup>
+                        <InputGroup style={{ margin: '2px' }}>
+                            <InputGroup.Addon>Publisher</InputGroup.Addon>
+                            <FormControl type="text"
+                                         placeholder="Enter Book Publisher"
+                                         onChange={event => this.setState({publisher: event.target.value})}
+                                         onKeyPress={event => {
+                                             if (event.key == 'Enter') {
+                                                 this.search();
+                                             }
+                                         }}
+                            />
+                        </InputGroup>
+                        <Button onClick={() => this.search()} style={{ margin: '2px' }}>
+                            <Glyphicon glyph="search"/> Search
+                        </Button>
+                    </FormGroup>
+                </Form>
+                <div className={this.state.resultsCount>0?"":"hidden"} style={{ marginTop: '10px' }}>
+                    <div className="panel panel-default">
+                        <div className="panel-heading">
+                            <Row>
+                                <span className="pull-left" style={{ margin: '8px' }}>
+                                    Results <Badge>{this.state.items.length}</Badge>
+                                </span>
+                                <span className="pull-right">
+                                    <FilterPanel books={this.controller.filterBy()}
+                                            filter={this.filter.bind(this)} searchID={this.state.searchID}/>
+                                </span>
+                            </Row>
+                        </div>
+                        <div className="panel-body">
+                            <Gallery items={this.state.items}/>
+                        </div>
                     </div>
-                    <div className="panel-body">
-                        <Gallery items={this.state.items}/>
-                    </div>
-                </div>
                 </div>
             </div>
         )
