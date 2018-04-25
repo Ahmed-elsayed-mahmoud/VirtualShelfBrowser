@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Glyphicon , Button } from 'react-bootstrap';
+import { ControlLabel, Form, FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
 
 import FilterQuery from '../model/FilterQuery';
 
@@ -18,7 +18,6 @@ class FilterMenuItem extends Component {
         } else {
             this.props.remove(this.props.text);
         }
-        console.log("there");
         this.setState({
             checked: !this.state.checked
         });
@@ -62,7 +61,7 @@ class FilterMenu extends Component {
                     {
                         this.props.items.map((item, index)=>{
                             return (
-                                <FilterMenuItem add={(t)=>this.add(t)} remove={(t)=>remove(t)}
+                                <FilterMenuItem add={(t)=>this.add(t)} remove={(t)=>this.remove(t)}
                                             text={item} key={`${this.props.field}${index}`}/>
                             );
                         })
@@ -126,18 +125,32 @@ class FilterPanel extends Component {
 
     render() {
         return (
-            <form>
-                Filter by:
-                <span className="form-group">
-                    <FilterMenu title='Author' items={this.state.authors}
-                                field='authors' add={(f,t)=>this.add(f,t)} remove={(f,t)=>this.remove(f,t)} />
-                    <FilterMenu title='Publisher Name' items={this.state.publishers}
-                                field='publishers' add={(f,t)=>this.add(f,t)} remove={(f,t)=>this.remove(f,t)} />
-                </span>
-                <Button>
-                    Clear <span className="glyphicon glyphicon-remove"></span>
-                </Button>
-            </form>
+            <Form inline>
+                <FormGroup>
+                    Filter by:
+                    <FormGroup>
+                        <FilterMenu title='Author' items={this.state.authors}
+                                    field='authors' add={(f,t)=>this.add(f,t)} remove={(f,t)=>this.remove(f,t)} />
+                    </FormGroup>
+                    <FormGroup>
+                        <FilterMenu title='Publisher Name' items={this.state.publishers}
+                                    field='publishers' add={(f,t)=>this.add(f,t)} remove={(f,t)=>this.remove(f,t)} />
+                    </FormGroup>
+                    <FormGroup>
+                        <InputGroup>
+                            <InputGroup.Addon>Min Rate</InputGroup.Addon>
+                            <FormControl type="number" min="0" max="5" step="0.01"
+                                                onChange={event => this.minRate(event.target.value)}
+                                />
+                        </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                        <Button>
+                        <span className="glyphicon glyphicon-remove"></span> Clear
+                        </Button>
+                    </FormGroup>
+                </FormGroup>
+            </Form>
         );
     }
 }

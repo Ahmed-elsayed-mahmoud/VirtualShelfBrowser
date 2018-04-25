@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
+import { Row, Col, Badge, Form, FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
 
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
@@ -16,6 +16,7 @@ class Global extends Component {
             author: '',
             publisher: '',
             searchID: 0,
+            resultsCount: 0,
             items: []
         };
         this.controller = Controller.getInstance();
@@ -30,7 +31,7 @@ class Global extends Component {
         this.controller.searchFor(bookQuery)
             .then(books => {
                 console.log(books);
-               this.setState({ items: books, searchID: this.state.searchID + 1});
+               this.setState({ items: books, searchID: this.state.searchID + 1, resultsCount: books.length});
             });
     }
 
@@ -95,9 +96,24 @@ class Global extends Component {
                         <Glyphicon glyph="search"/> Search
                     </Button>
                 </FormGroup>
-                <FilterPanel books={this.controller.filterBy()} filter={this.filter.bind(this)}
-                            searchID={this.state.searchID}/>
-                <Gallery items={this.state.items}/>
+                <div className={this.state.resultsCount>0?"":"hidden"}>
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <Row>
+                            <span className="pull-left">
+                                Results<Badge>{this.state.items.length}</Badge>
+                            </span>
+                            <span className="pull-right">
+                                <FilterPanel books={this.controller.filterBy()}
+                                        filter={this.filter.bind(this)} searchID={this.state.searchID}/>
+                            </span>
+                        </Row>
+                    </div>
+                    <div className="panel-body">
+                        <Gallery items={this.state.items}/>
+                    </div>
+                </div>
+                </div>
             </div>
         )
     }
