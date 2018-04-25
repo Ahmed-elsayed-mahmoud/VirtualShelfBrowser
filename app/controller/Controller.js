@@ -101,6 +101,7 @@ class Controller {
             }
             book.publisherName = item.volumeInfo.publisher || '';
             book.authors = item.volumeInfo.authors || [];
+            book.authors = book.authors.reduce((arr, author) => arr.concat(author.split(/\s*,\s*/)), []);
             book.description = item.volumeInfo.description || '';
             if (item.volumeInfo.imageLinks !== undefined) {
                 book.imageUrl = item.volumeInfo.imageLinks.thumbnail;
