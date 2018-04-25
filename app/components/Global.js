@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
+
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
-import { FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
 import Gallery from './Gallery';
+import FilterPanel from './FilterPanel';
 
 class Global extends Component {
 
@@ -13,9 +15,10 @@ class Global extends Component {
             ISBN: '',
             author: '',
             publisher: '',
+            searchID: 0,
             items: []
         };
-        this.controller = new Controller();
+        this.controller = Controller.getInstance();
     }
 
     search() {
@@ -27,8 +30,14 @@ class Global extends Component {
         this.controller.searchFor(bookQuery)
             .then(books => {
                 console.log(books);
-               this.setState({ items: books });
+               this.setState({ items: books, searchID: this.state.searchID + 1});
             });
+    }
+
+    filter(query) {
+        this.setState({
+            items: this.controller.filterBy(query)
+        });
     }
 
     render() {
@@ -82,10 +91,12 @@ class Global extends Component {
                         />
 
                     </InputGroup>
+                    <Button onClick={() => this.search()}>
+                        <Glyphicon glyph="search"/> Search
+                    </Button>
                 </FormGroup>
-                <Button onClick={() => this.search()}>
-                    <Glyphicon glyph="search"/> Search
-                </Button>
+                <FilterPanel books={this.controller.filterBy()} filter={this.filter.bind(this)}
+                            searchID={this.state.searchID}/>
                 <Gallery items={this.state.items}/>
             </div>
         )
