@@ -10,6 +10,8 @@ class FilterMenuItem extends Component {
         this.state = {
             checked: false
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange() {
@@ -25,9 +27,9 @@ class FilterMenuItem extends Component {
 
     render() {
         return (
-            <li className="list-group-item">
+            <li className="form-check">
                 <label className="form-check-label">
-                    <input type="checkbox" className="form-check-input" onChange={()=>this.handleChange()}></input>
+                    <input type="checkbox" className="form-check-input" onChange={this.handleChange}></input>
                     {this.props.text}
                 </label>
             </li>
