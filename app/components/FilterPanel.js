@@ -10,8 +10,6 @@ class FilterMenuItem extends Component {
         this.state = {
             checked: false
         };
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange() {
@@ -28,9 +26,9 @@ class FilterMenuItem extends Component {
 
     render() {
         return (
-            <li className="form-check">
+            <li className="list-group-item">
                 <label className="form-check-label">
-                    <input type="checkbox" className="form-check-input" onChange={this.handleChange}></input>
+                    <input type="checkbox" className="form-check-input" onChange={()=>this.handleChange()}></input>
                     {this.props.text}
                 </label>
             </li>
@@ -64,8 +62,8 @@ class FilterMenu extends Component {
                     {
                         this.props.items.map((item, index)=>{
                             return (
-                                <FilterMenuItem add={this.add.bind(this)} remove={this.remove.bind(this)} text={item}
-                                key={`${this.props.field}${index}`}/>
+                                <FilterMenuItem add={(t)=>this.add(t)} remove={(t)=>remove(t)}
+                                            text={item} key={`${this.props.field}${index}`}/>
                             );
                         })
                     }
@@ -132,9 +130,9 @@ class FilterPanel extends Component {
                 Filter by:
                 <span className="form-group">
                     <FilterMenu title='Author' items={this.state.authors}
-                                field='authors' add={this.add.bind(this)} remove={this.remove.bind(this)} />
+                                field='authors' add={(f,t)=>this.add(f,t)} remove={(f,t)=>this.remove(f,t)} />
                     <FilterMenu title='Publisher Name' items={this.state.publishers}
-                                field='publishers' add={this.add.bind(this)} remove={this.remove.bind(this)} />
+                                field='publishers' add={(f,t)=>this.add(f,t)} remove={(f,t)=>this.remove(f,t)} />
                 </span>
                 <Button>
                     Clear <span className="glyphicon glyphicon-remove"></span>
