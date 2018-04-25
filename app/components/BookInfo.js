@@ -8,7 +8,7 @@ class BookInfo extends Component {
 
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.controller = new Controller();
+        this.controller = Controller.getInstance();
 
         this.state = {
             show: false,
