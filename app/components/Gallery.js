@@ -3,7 +3,7 @@ import BookInfo from './BookInfo';
 
 class Gallery extends Component {
     render() {
-        let alternate = 'https://cdn0.iconfinder.com/data/icons/thin-photography/57/thin-367_photo_image_wall_unavailable_missing-512.png';
+        let alternate = 'http://www.isic.cz/wp-content/plugins/orchitech-dm/resources/alive-dm/img/empty-image.png';
 
         return(
             <div>

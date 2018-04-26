@@ -41,7 +41,7 @@ class BookInfo extends Component {
     }
 
     render() {
-        let alternate = 'https://cdn0.iconfinder.com/data/icons/thin-photography/57/thin-367_photo_image_wall_unavailable_missing-512.png';
+        let alternate = 'http://www.tpsudan.gov.sd/resources/files/images/placeholder.png';
 
         let book = this.props.book;
         /*let book = {
