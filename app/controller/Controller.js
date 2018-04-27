@@ -27,7 +27,7 @@ class Controller {
         return this.apiBuilder.callAPI(bookQuery)
             .then(json => {
                 if (json === '') {
-                    console.log("Controller: No Results");
+                    //console.log("Controller: No Results");
                     this.books = [];
                     return this.books;
                 }

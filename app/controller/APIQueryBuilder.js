@@ -46,7 +46,7 @@ class APIQueryBuilder {
             }
         }
         query = `${query}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`;
-        console.log(query);
+        //console.log(query);
         return fetch(query, { method: 'GET' })
             .then(response => {
                 return response.json();
