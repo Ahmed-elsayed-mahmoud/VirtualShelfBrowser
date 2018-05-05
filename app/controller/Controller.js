@@ -1,5 +1,7 @@
 import APIQueryBuilder from './APIQueryBuilder';
 import Book from "../model/Book";
+import User from "../model/User";
+import firebase from '../model/Firebase';
 
 let _singleton = Symbol();
 
@@ -12,6 +14,8 @@ class Controller {
 
         this.books = []; // list of books
         this.apiBuilder = new APIQueryBuilder();
+        this.db = firebase.database();
+        this.auth = firebase.auth();
     }
 
     static getInstance() {
@@ -73,7 +77,6 @@ class Controller {
     }
 
     selectBook(ISBN) {
-        // return book reviews
         return this.apiBuilder.callReviewsAPI(ISBN);
     }
 
@@ -118,16 +121,89 @@ class Controller {
         return this.books;
     }
 
-    addFavorite(book) {
-
+    addToFavorites(book) {
+        let user = this.auth.currentUser;
+        if (user) {
+            let ref = this.db.ref('users/' + user.uid);
+            var updates = {};
+            updates[book.ISBN] = book;
+            return ref.update(updates);
+        }
     }
 
-    logIn(user) {
+    removeFromFavorites(book){
+        let user = this.auth.currentUser;
+        if (user) {
+            let ref = this.db.ref('users/' + user.uid);
+            ref.child(book.ISBN).remove();
+        }
+    }
 
+    fetchCurrentUserFavorites(){
+        let user = this.auth.currentUser;
+        if (user) {
+            let ref = this.db.ref('users/' + user.uid);
+            var favorites = [];
+            ref.once('value').then(function(snapshot) {
+                snapshot.forEach(function(f) {
+                    favorites.push(f.val());
+                });
+                console.log(favorites);
+            }).catch(function(error) {
+              console.log("Fetch Favorites Fail: " + error.message);
+            });
+        }
+    }
+
+    isFavorite(book) {
+        let user = this.auth.currentUser;
+        if (user) {
+            let ref = this.db.ref('users/' + user.uid);
+            ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(favorites) {
+                if (favorites.val()){
+                  console.log("exists!");
+                }
+            }).catch(function(error) {
+              console.log("Is Favorite Fail: " + error.message);
+            });
+        }
+    }
+
+    signIn(user) {
+        this.auth.signInWithEmailAndPassword(user.email, user.password).catch(function(error) {
+          console.log("SignIn Fail: " + error.message);
+        });
     }
 
     signUp(user) {
+        this.auth.createUserWithEmailAndPassword(user.email, user.password).catch(function(error) {
+          console.log("SignUp Fail: " + error.message);
+        });
+    }
 
+    signOut() {
+        this.auth.signOut().then(function() {
+          console.log("SignOut successful");
+        }).catch(function(error) {
+          console.log("SignOut Fail: " + error.message);
+        });
+    }
+    
+    getCurrentSignedUser(){
+        // return a user
+        // you can check if is loggedin by if(user)
+        return this.auth.currentUser;
+    }
+
+    updateUserEmail(email) {
+        var user = this.auth.currentUser;
+        if(user){
+            user.updateEmail(email).then(function() {
+              console.log("Update successful");
+            }).catch(function(error) {
+              console.log("Update Fail: " + error.message);
+            });
+        }   
     }
 
 }

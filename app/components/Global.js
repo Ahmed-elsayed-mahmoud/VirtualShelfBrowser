@@ -3,6 +3,7 @@ import { Row, Col, Badge, Button } from 'react-bootstrap';
 
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
+import User from '../model/User';
 import Gallery from './Gallery';
 import FilterPanel from './FilterPanel';
 import { AdvancedSearch, GeneralSearch } from './SearchPanel';
