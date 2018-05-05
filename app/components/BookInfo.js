@@ -61,18 +61,27 @@ class BookInfo extends Component {
 
         return (
             <div className="book-modal">
-                <Button className="book-modal-btn" bsStyle="info" bsSize="large" onClick={this.handleShow}>
-                    Book Info
-                </Button>
+                <a onClick={this.handleShow}>
+                    <img src={book.imageUrl !== '' ? book.imageUrl : alternate} className="book-img" alt="book"/>
+                    <div className="book-text">{book.title}</div>
+                </a>
 
-                <Modal show={this.state.show} onHide={this.handleClose}>
+                {/*<Button className="book-modal-btn" bsStyle="info" bsSize="large" onClick={this.handleShow}>
+                    Book Info
+                </Button>*/}
+
+                <Modal show={this.state.show} onHide={this.handleClose} keyboard>
                     <Modal.Header closeButton>
-                        <Modal.Title>{book.title}</Modal.Title>
+                        <a href={book.readUrl} target="_blank">
+                            <Modal.Title>{book.title}</Modal.Title>
+                        </a>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
                             <Col xs={12} md={5}>
-                                <img src={book.imageUrl ? book.imageUrl : alternate} className="img-responsive" alt="book cover"/>
+                                <a href={book.readUrl} target="_blank">
+                                    <img src={book.imageUrl ? book.imageUrl : alternate} className="img-responsive" alt="book cover"/>
+                                </a>
                                 <div className="panel panel-warning">
                                     <div className="panel-heading">Rate: {book.rate}</div>
                                 </div>

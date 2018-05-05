@@ -41,33 +41,48 @@ class Global extends Component {
     render() {
         return (
             // we are using className instead of class as in html because class is a reserved word in JavaScript
-            <div className="Global">
-                <h2>Book Shelf Browser</h2>
-                {
-                    this.state.advanced?
-                    <AdvancedSearch search={q => this.search(q)} />
-                    :
-                    <GeneralSearch search={q => this.search(q)} />
-                }
-                <Button bsStyle="link" style={{ marginTop: '-10px' }}
-                        onClick={()=> this.setState({advanced: !this.state.advanced})}>
-                    {this.state.advanced? "General Search" : "Advanced Search"}
-                </Button>
-                <div className={this.state.resultsCount>0?"":"hidden"} style={{ marginTop: '10px' }}>
-                    <div className="panel panel-default">
-                        <div className="panel-heading">
-                            <Row>
-                                <span className="pull-left" style={{ margin: '8px' }}>
-                                    Results <Badge>{this.state.items.length}</Badge>
-                                </span>
-                                <span className="pull-right">
-                                    <FilterPanel books={this.controller.filterBy()}
-                                            filter={this.filter.bind(this)} searchID={this.state.searchID}/>
-                                </span>
-                            </Row>
+            <div>
+                <div className="navbar navbar-default navbar-fixed-top">
+                    <div className="container">
+                        <div className="navbar-header">
+                            <a className="navbar-brand" href="">Book Shelf Browser</a>
                         </div>
-                        <div className="panel-body">
-                            <Gallery items={this.state.items}/>
+                        <div>
+                            <ul className="nav navbar-nav navbar-right">
+                                <li className="link"><a>Log In</a></li>
+                                <li className="link"><a>Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div className="Global">
+                    <h2>Book Shelf Browser</h2>
+                    {
+                        this.state.advanced?
+                        <AdvancedSearch search={q => this.search(q)} />
+                        :
+                        <GeneralSearch search={q => this.search(q)} />
+                    }
+                    <Button bsStyle="link" style={{ marginTop: '-10px' }}
+                            onClick={()=> this.setState({advanced: !this.state.advanced})}>
+                        {this.state.advanced? "General Search" : "Advanced Search"}
+                    </Button>
+                    <div className={this.state.resultsCount>0?"":"hidden"} style={{ marginTop: '10px' }}>
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                <Row>
+                                    <span className="pull-left" style={{ margin: '8px' }}>
+                                        Results <Badge>{this.state.items.length}</Badge>
+                                    </span>
+                                    <span className="pull-right">
+                                        <FilterPanel books={this.controller.filterBy()}
+                                                filter={this.filter.bind(this)} searchID={this.state.searchID}/>
+                                    </span>
+                                </Row>
+                            </div>
+                            <div className="panel-body">
+                                <Gallery items={this.state.items}/>
+                            </div>
                         </div>
                     </div>
                 </div>

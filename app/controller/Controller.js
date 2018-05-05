@@ -122,6 +122,14 @@ class Controller {
 
     }
 
+    logIn(user) {
+
+    }
+
+    signUp(user) {
+
+    }
+
 }
 
 export default Controller;

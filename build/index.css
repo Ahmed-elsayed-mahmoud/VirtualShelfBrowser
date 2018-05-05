@@ -7,6 +7,12 @@
 .Global {
     text-align: center;
     padding: 10px;
+    margin-top: 30px;
+}
+
+.link:hover {
+    cursor: pointer;
+    background-color: #e6e6e6;
 }
 
 /*Gallery Style*/
@@ -18,7 +24,6 @@
     text-align: left;
     cursor: pointer;
     position: relative;
-    margin-bottom: 50px;
 }
 
 .book-img {
