@@ -149,6 +149,7 @@ class Controller {
                     favorites.push(f.val());
                 });
                 console.log(favorites);
+                return favorites;
             }).catch(function(error) {
               console.log("Fetch Favorites Fail: " + error.message);
             });
@@ -162,7 +163,9 @@ class Controller {
             return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(favorites) {
                 if (favorites.val()){
                   console.log("exists!");
+                  return true;
                 }
+                return false;
             }).catch(function(error) {
               console.log("Is Favorite Fail: " + error.message);
             });
