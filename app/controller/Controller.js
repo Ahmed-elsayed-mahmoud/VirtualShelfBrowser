@@ -152,6 +152,7 @@ class Controller {
                 return favorites;
             }).catch(function(error) {
               console.log("Fetch Favorites Fail: " + error.message);
+              return "Error";
             });
         }
     }
@@ -160,7 +161,7 @@ class Controller {
         let user = this.auth.currentUser;
         if (user) {
             let ref = this.db.ref('users/' + user.uid);
-            return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(favorites) {
+            return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(fav[orites) {
                 if (favorites.val()){
                   console.log("exists!");
                   return true;
@@ -168,27 +169,36 @@ class Controller {
                 return false;
             }).catch(function(error) {
               console.log("Is Favorite Fail: " + error.message);
+              return "Error";
             });
         }
     }
 
     signIn(user) {
-        return this.auth.signInWithEmailAndPassword(user.email, user.password).catch(function(error) {
+        return this.auth.signInWithEmailAndPassword(user.email, user.password).then(function(){
+            return true;
+        }).catch(function(error) {
           console.log("SignIn Fail: " + error.message);
+          return false;
         });
     }
 
     signUp(user) {
-        return this.auth.createUserWithEmailAndPassword(user.email, user.password).catch(function(error) {
+        return this.auth.createUserWithEmailAndPassword(user.email, user.password).then(function(){
+            return true;
+        }).catch(function(error) {
           console.log("SignUp Fail: " + error.message);
+          return false;
         });
     }
 
     signOut() {
         return this.auth.signOut().then(function() {
           console.log("SignOut successful");
+          return true;
         }).catch(function(error) {
           console.log("SignOut Fail: " + error.message);
+          return false;
         });
     }
     
@@ -203,8 +213,10 @@ class Controller {
         if(user){
             return user.updateEmail(email).then(function() {
               console.log("Update successful");
+              return true;
             }).catch(function(error) {
               console.log("Update Fail: " + error.message);
+              return false;
             });
         }
     }
