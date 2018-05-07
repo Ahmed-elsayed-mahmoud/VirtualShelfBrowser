@@ -2,10 +2,10 @@ import Book from '../model/Book';
 
 describe('Book', () => {
 
-   it('should return title', () => {
+    it('should return title', () => {
 
-       expect(book.title).toBe('Title');
-   });
+        expect(book.title).toBe('Title');
+    });
 
     it('should return publisher name', () => {
 

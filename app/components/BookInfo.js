@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Modal, Col, Row, Glyphicon, Button } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Modal, Col, Row, Glyphicon, Button} from 'react-bootstrap';
 import Controller from '../controller/Controller';
 
 class BookInfo extends Component {
@@ -17,7 +17,7 @@ class BookInfo extends Component {
     }
 
     handleClose() {
-        this.setState({ show: false });
+        this.setState({show: false});
     }
 
     /*getReviewsView(isbn) {
@@ -30,13 +30,13 @@ class BookInfo extends Component {
     }*/
 
     handleShow() {
-        this.setState({ show: true });
+        this.setState({show: true});
         this.controller.selectBook(this.props.book.ISBN)
             .then(json => {
-                this.setState({ reviews: json["reviews_widget"]});
+                this.setState({reviews: json["reviews_widget"]});
             })
             .catch(error => {
-                this.setState({ reviews: '' });
+                this.setState({reviews: ''});
             });
     }
 
@@ -80,7 +80,8 @@ class BookInfo extends Component {
                         <Row>
                             <Col xs={12} md={5}>
                                 <a href={book.readUrl} target="_blank">
-                                    <img src={book.imageUrl ? book.imageUrl : alternate} className="img-responsive" alt="book cover"/>
+                                    <img src={book.imageUrl ? book.imageUrl : alternate} className="img-responsive"
+                                         alt="book cover"/>
                                 </a>
                                 <div className="panel panel-warning">
                                     <div className="panel-heading">Rate: {book.rate}</div>
@@ -101,7 +102,8 @@ class BookInfo extends Component {
                             <Col xs={12} md={7}>
                                 <div className="panel panel-info">
                                     <div className="panel-heading">Authors</div>
-                                    <div className="panel-body">{(book.authors !== undefined)? book.authors.join(", ") : ""}</div>
+                                    <div
+                                        className="panel-body">{(book.authors !== undefined) ? book.authors.join(", ") : ""}</div>
                                 </div>
                                 <div className="panel panel-info">
                                     <div className="panel-heading">Description</div>

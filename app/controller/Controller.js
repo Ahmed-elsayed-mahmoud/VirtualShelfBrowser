@@ -19,7 +19,7 @@ class Controller {
     }
 
     static getInstance() {
-        if(!this[_singleton]) {
+        if (!this[_singleton]) {
             this[_singleton] = new Controller(_singleton);
         }
 
@@ -27,7 +27,7 @@ class Controller {
     }
 
     searchFor(bookQuery) {
-      	// return list of books
+        // return list of books
         return this.apiBuilder.callAPI(bookQuery)
             .then(json => {
                 if (json === '') {
@@ -56,7 +56,7 @@ class Controller {
                     book.authors.forEach(author => {
                         if (filterQuery.authors.has(author)) {
                             authorFound = true;
-                       }
+                        }
                     });
                 } else {
                     authorFound = true;
@@ -81,14 +81,14 @@ class Controller {
     }
 
     parseResult(json) {
-    	// return list of books
+        // return list of books
         this.books = [];
         console.log(json);
         if (json.totalItems === 0) {
             return this.books;
         }
-        let { items }  = json;
-        items.forEach( item => {
+        let {items} = json;
+        items.forEach(item => {
             let book = new Book();
             let valid = false;
             book.title = item.volumeInfo.title;
@@ -112,7 +112,7 @@ class Controller {
             book.numberOfPages = item.volumeInfo.pageCount;
             book.publicationDate = item.volumeInfo.publishedDate;
             book.readUrl = item.volumeInfo.infoLink || '';
-            book.rate = (item.volumeInfo.averageRating !== undefined)?
+            book.rate = (item.volumeInfo.averageRating !== undefined) ?
                 item.volumeInfo.averageRating : Math.round((3 + Math.random() * 2) * 10) / 10;
             if (valid) {
                 this.books.push(book);
@@ -134,13 +134,13 @@ class Controller {
             });
         }
         else {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 resolve("User must log in first");
             });
         }
     }
 
-    removeFromFavorites(book){
+    removeFromFavorites(book) {
         let user = this.auth.currentUser;
         if (user) {
             let ref = this.db.ref('users/' + user.uid);
@@ -151,30 +151,28 @@ class Controller {
             });
         }
         else {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 resolve("User must log in first");
             });
         }
     }
 
-    fetchCurrentUserFavorites(){
+    fetchCurrentUserFavorites() {
         let user = this.auth.currentUser;
         if (user) {
             let ref = this.db.ref('users/' + user.uid);
             let favorites = [];
-            return ref.once('value').then(function(snapshot) {
-                snapshot.forEach(function(f) {
+            return ref.once('value').then(function (snapshot) {
+                snapshot.forEach(function (f) {
                     favorites.push(f.val());
                 });
-                console.log(favorites);
                 return favorites;
-            }).catch(function(error) {
-                console.log("Fetch Favorites Fail: " + error.message);
+            }).catch(function (error) {
                 return "Error";
             });
         }
         else {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 resolve("User must log in first");
             });
         }
@@ -184,54 +182,47 @@ class Controller {
         let user = this.auth.currentUser;
         if (user) {
             let ref = this.db.ref('users/' + user.uid);
-            return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(favorites) {
-                if (favorites.val()){
-                  console.log("exists!");
-                  return true;
+            return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function (favorites) {
+                if (favorites.val()) {
+                    return true;
                 }
                 return false;
-            }).catch(function(error) {
-              console.log("Is Favorite Fail: " + error.message);
-              return "Error";
+            }).catch(function (error) {
+                return "Error";
             });
         }
         else {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 resolve("User must log in first");
             });
         }
     }
 
     signIn(user) {
-        return this.auth.signInWithEmailAndPassword(user.email, user.password).then(function(){
+        return this.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
             return true;
-        }).catch(function(error) {
-          console.log("SignIn Fail: " + error.message);
-          return false;
+        }).catch(function (error) {
+            return false;
         });
     }
 
     signUp(user) {
-        console.log("Controller: " + user.email);
-        return this.auth.createUserWithEmailAndPassword(user.email, user.password).then(function(){
+        return this.auth.createUserWithEmailAndPassword(user.email, user.password).then(function () {
             return true;
-        }).catch(function(error) {
-            console.log("SignUp Fail: " + error.message);
+        }).catch(function (error) {
             return false;
         });
     }
 
     signOut() {
-        return this.auth.signOut().then(function() {
-          console.log("SignOut successful");
-          return true;
-        }).catch(function(error) {
-          console.log("SignOut Fail: " + error.message);
-          return false;
+        return this.auth.signOut().then(function () {
+            return true;
+        }).catch(function (error) {
+            return false;
         });
     }
-    
-    getCurrentSignedUser(){
+
+    getCurrentSignedUser() {
         // return a user
         // you can check if is loggedin by if(user)
         return this.auth.currentUser;
@@ -239,13 +230,11 @@ class Controller {
 
     updateUserEmail(email) {
         let user = this.auth.currentUser;
-        if(user){
-            return user.updateEmail(email).then(function() {
-              console.log("Update successful");
-              return true;
-            }).catch(function(error) {
-              console.log("Update Fail: " + error.message);
-              return false;
+        if (user) {
+            return user.updateEmail(email).then(function () {
+                return true;
+            }).catch(function (error) {
+                return false;
             });
         }
     }

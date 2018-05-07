@@ -6,23 +6,23 @@ import fetch from 'isomorphic-fetch';
 
 describe('General and Advanced Search', () => {
 
-  let controller = Controller.getInstance();
-   it('Empty title should return empty list', () => {
+    let controller = Controller.getInstance();
+    it('Empty title should return empty list', () => {
 
-       let bookQuery = new BookQuery();
+        let bookQuery = new BookQuery();
         bookQuery.title = '';
         controller.searchFor(bookQuery)
             .then(books => {
-               expect(books.size).toBe(0);
+                expect(books.size).toBe(0);
             });
-   });
+    });
 
     it('Non empty title should return list of books', () => {
         let bookQuery = new BookQuery();
         bookQuery.title = 'Harry Potter';
         controller.searchFor(bookQuery)
             .then(books => {
-               expect(books.size).not.toBe(0);
+                expect(books.size).not.toBe(0);
             });
     });
 
@@ -31,7 +31,7 @@ describe('General and Advanced Search', () => {
         bookQuery.ISBN = "1781100543";
         controller.searchFor(bookQuery)
             .then(books => {
-               expect(books.size).toBe(1);
+                expect(books.size).toBe(1);
             });
     });
 
@@ -40,7 +40,7 @@ describe('General and Advanced Search', () => {
         bookQuery.ISBN = "1234567890";
         controller.searchFor(bookQuery)
             .then(books => {
-               expect(books.size).toBe(0);
+                expect(books.size).toBe(0);
             });
     });
 
@@ -52,8 +52,8 @@ describe('General and Advanced Search', () => {
         bookQuery.rate = 4.5;
         controller.searchFor(bookQuery)
             .then(books => {
-               expect(books.size).toBe(1);
-               expect(book.publisherName).toBe("St. Martin's Griffin");
+                expect(books.size).toBe(1);
+                expect(book.publisherName).toBe("St. Martin's Griffin");
             });
     });
 

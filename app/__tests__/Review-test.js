@@ -8,7 +8,7 @@ describe('Reviews', () => {
     //let review = new Review();
     it('should return reviewer', () => {
 
-       expect(review.reviewerName).toBe('Hamada');
+        expect(review.reviewerName).toBe('Hamada');
     });
 
     it('should return rate', () => {
@@ -33,8 +33,8 @@ describe('Reviews', () => {
 });
 
 let review = {
-    reviewerName : 'Hamada',
-    reviewDate : '9/5/2018',
-    reviewBody : 'review review',
-    reviewRate : 5.0
+    reviewerName: 'Hamada',
+    reviewDate: '9/5/2018',
+    reviewBody: 'review review',
+    reviewRate: 5.0
 }

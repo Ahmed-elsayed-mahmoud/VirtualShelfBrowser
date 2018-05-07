@@ -1,4 +1,3 @@
-
 class FilterQuery {
     constructor() {
         this.title = '';
@@ -10,10 +9,10 @@ class FilterQuery {
 
     isEmpty() {
         return (this.title === ''
-                && this.ISBN === ''
-                && this.authors.size === 0
-                && this.publishers.size === 0
-                && this.minRate === 0.0);
+            && this.ISBN === ''
+            && this.authors.size === 0
+            && this.publishers.size === 0
+            && this.minRate === 0.0);
     }
 }
 

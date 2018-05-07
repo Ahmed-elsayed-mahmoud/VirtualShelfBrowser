@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { ControlLabel, Form, FormGroup, FormControl, InputGroup, Glyphicon , Button } from 'react-bootstrap';
+import React, {Component} from 'react';
+import {ControlLabel, Form, FormGroup, FormControl, InputGroup, Glyphicon, Button} from 'react-bootstrap';
 
 import FilterQuery from '../model/FilterQuery';
 
@@ -29,15 +29,15 @@ class FilterMenu extends Component {
         let field = this.props.field;
         return (
             <div className="btn-group dropdown">
-                    <button type="button" className="btn dropdown-toggle" data-toggle="dropdown">
+                <button type="button" className="btn dropdown-toggle" data-toggle="dropdown">
                     {this.props.title} <span className="caret"></span></button>
                 <ul className="dropdown-menu scrollable-menu" role="menu">
                     {
-                        Object.keys(this.props.items).map((key, index) =>{
+                        Object.keys(this.props.items).map((key, index) => {
                             let check = this.props.items[key];
                             return (
-                                <FilterMenuItem onChange={()=> this.props.onChange(field,key,!check)}
-                                            text={key} checked={check} key={`${field}${index}`}/>
+                                <FilterMenuItem onChange={() => this.props.onChange(field, key, !check)}
+                                                text={key} checked={check} key={`${field}${index}`}/>
                             );
                         })
                     }
@@ -133,23 +133,24 @@ class FilterPanel extends Component {
                     </FormGroup>
                     <FormGroup style={{margin: '2px'}}>
                         <FilterMenu title='Author' items={this.state.authors}
-                                    field='authors' onChange={(f,t,c) => this.onChange(f,t,c)} />
+                                    field='authors' onChange={(f, t, c) => this.onChange(f, t, c)}/>
                     </FormGroup>
                     <FormGroup style={{margin: '2px'}}>
                         <FilterMenu title='Publisher Name' items={this.state.publishers}
-                                    field='publishers' onChange={(f,t,c) => this.onChange(f,t,c)} />
+                                    field='publishers' onChange={(f, t, c) => this.onChange(f, t, c)}/>
                     </FormGroup>
                     <FormGroup style={{margin: '2px'}}>
                         <InputGroup>
                             <InputGroup.Addon>Min Rate</InputGroup.Addon>
-                            <FormControl type="number" min="0" max="5" step="0.01" value={this.state.filterQuery.minRate}
+                            <FormControl type="number" min="0" max="5" step="0.01"
+                                         value={this.state.filterQuery.minRate}
                                          onChange={event => this.minRate(event.target.value)}
-                                />
+                            />
                         </InputGroup>
                     </FormGroup>
                     <FormGroup style={{margin: '2px'}}>
                         <Button onClick={() => this.clear()}>
-                        <Glyphicon glyph="remove"/> Clear
+                            <Glyphicon glyph="remove"/> Clear
                         </Button>
                     </FormGroup>
                 </FormGroup>

@@ -1,4 +1,3 @@
-
 class BookQuery {
     constructor() {
         this.title = '';
@@ -10,9 +9,9 @@ class BookQuery {
 
     isEmpty() {
         return (this.title === ''
-                && this.ISBN === ''
-                && this.authorName === ''
-                && this.publisherName === '');
+            && this.ISBN === ''
+            && this.authorName === ''
+            && this.publisherName === '');
     }
 }
 

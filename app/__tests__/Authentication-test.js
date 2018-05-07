@@ -6,17 +6,17 @@ describe('Authentication tests', () => {
     let controller = Controller.getInstance();
 
     it('test signup', () => {
-       let user = new User();
-       user.email = "mohamed.adel647@gmail.com";
-       user.password = "123456";
-       controller.signUp(user).then(function (status) {
-           if (status) {
-               expect(status).toBe(true);
-           }
-           else {
-               expect(status).toBe(false);
-           }
-       });
+        let user = new User();
+        user.email = "mohamed.adel647@gmail.com";
+        user.password = "123456";
+        controller.signUp(user).then(function (status) {
+            if (status) {
+                expect(status).toBe(true);
+            }
+            else {
+                expect(status).toBe(false);
+            }
+        });
     });
 
     it('test login', () => {
@@ -54,7 +54,7 @@ describe('Authentication tests', () => {
             expect(status).toBe(true);
         });
         controller.signOut().then(function (status) {
-           expect(status).toBe(true);
+            expect(status).toBe(true);
         });
         expect(controller.getCurrentSignedUser()).toBe(null);
     });

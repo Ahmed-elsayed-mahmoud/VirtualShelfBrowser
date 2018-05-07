@@ -1,4 +1,3 @@
-
 class APIQueryBuilder {
 
     constructor() {
@@ -12,14 +11,14 @@ class APIQueryBuilder {
         let query = this.BASE_URL;
         if (typeof bookQuery === "string") { // general search
             if (bookQuery === '') {
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     resolve("");
                 });
             }
             query += bookQuery.replace(/\s+/, "+");
         } else { // advanced search
             if (bookQuery.isEmpty()) {
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     resolve("");
                 });
             }
@@ -47,19 +46,19 @@ class APIQueryBuilder {
         }
         query = `${query}&orderBy:relevance&maxResults=40&key=${this.GOOGLE_KEY}`;
         //console.log(query);
-        return fetch(query, { method: 'GET' })
+        return fetch(query, {method: 'GET'})
             .then(response => {
                 return response.json();
             })
             .catch(error => {
-                return new Promise(function(resolve, reject) {
+                return new Promise(function (resolve, reject) {
                     resolve("");
                 });
             });
     }
 
     callReviewsAPI(ISBN) {
-        return fetch(`${this.BASE_URL_REVIEWS }${ISBN}?key=${this.GOODREADS_KEY}&format=json`, { method: 'GET' })
+        return fetch(`${this.BASE_URL_REVIEWS }${ISBN}?key=${this.GOODREADS_KEY}&format=json`, {method: 'GET'})
             .then(response => {
                 return response.json();
             });
