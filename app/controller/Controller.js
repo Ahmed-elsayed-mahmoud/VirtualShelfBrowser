@@ -127,7 +127,16 @@ class Controller {
             let ref = this.db.ref('users/' + user.uid);
             let updates = {};
             updates[book.ISBN] = book;
-            return ref.update(updates);
+            return ref.update(updates).then(function () {
+                return true;
+            }).catch(function () {
+                return false;
+            });
+        }
+        else {
+            return new Promise(function(resolve, reject) {
+                resolve("User must log in first");
+            });
         }
     }
 
@@ -135,7 +144,16 @@ class Controller {
         let user = this.auth.currentUser;
         if (user) {
             let ref = this.db.ref('users/' + user.uid);
-            return ref.child(book.ISBN).remove();
+            return ref.child(book.ISBN).remove().then(function () {
+                return true;
+            }).catch(function () {
+                return false;
+            });
+        }
+        else {
+            return new Promise(function(resolve, reject) {
+                resolve("User must log in first");
+            });
         }
     }
 
@@ -151,8 +169,13 @@ class Controller {
                 console.log(favorites);
                 return favorites;
             }).catch(function(error) {
-              console.log("Fetch Favorites Fail: " + error.message);
-              return "Error";
+                console.log("Fetch Favorites Fail: " + error.message);
+                return "Error";
+            });
+        }
+        else {
+            return new Promise(function(resolve, reject) {
+                resolve("User must log in first");
             });
         }
     }
@@ -161,7 +184,7 @@ class Controller {
         let user = this.auth.currentUser;
         if (user) {
             let ref = this.db.ref('users/' + user.uid);
-            return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(fav[orites) {
+            return ref.orderByChild("ISBN").equalTo(book.ISBN).once('value').then(function(favorites) {
                 if (favorites.val()){
                   console.log("exists!");
                   return true;
@@ -170,6 +193,11 @@ class Controller {
             }).catch(function(error) {
               console.log("Is Favorite Fail: " + error.message);
               return "Error";
+            });
+        }
+        else {
+            return new Promise(function(resolve, reject) {
+                resolve("User must log in first");
             });
         }
     }
@@ -184,11 +212,12 @@ class Controller {
     }
 
     signUp(user) {
+        console.log("Controller: " + user.email);
         return this.auth.createUserWithEmailAndPassword(user.email, user.password).then(function(){
             return true;
         }).catch(function(error) {
-          console.log("SignUp Fail: " + error.message);
-          return false;
+            console.log("SignUp Fail: " + error.message);
+            return false;
         });
     }
 
