@@ -7,6 +7,8 @@ import User from '../model/User';
 import Gallery from './Gallery';
 import FilterPanel from './FilterPanel';
 import {AdvancedSearch, GeneralSearch} from './SearchPanel';
+import {SignComponent, SignInModal, SignUpModal} from './SignComponent';
+import {Favourites} from './Favourites';
 
 class Global extends Component {
 
@@ -16,7 +18,8 @@ class Global extends Component {
             advanced: false,
             searchID: 0,
             resultsCount: 0,
-            items: []
+            items: [],
+            user: null,
         };
         this.controller = Controller.getInstance();
     }
@@ -48,12 +51,20 @@ class Global extends Component {
                         <div className="navbar-header">
                             <a className="navbar-brand" href="">Book Shelf Browser</a>
                         </div>
-                        <div>
+                        {
+                            this.state.user?
                             <ul className="nav navbar-nav navbar-right">
-                                <li className="link"><a>Log In</a></li>
-                                <li className="link"><a>Sign Up</a></li>
+                                <li className="link">
+                                    <a>Favourites</a>
+                                </li>
+                                <li className="link">
+                                    <a>Log Out</a>
+                                </li>
+                                <Favourites books={this.state.user.favoriteBooks}/>
                             </ul>
-                        </div>
+                            :
+                            <SignComponent />
+                        }
                     </div>
                 </div>
                 <div className="Global">
