@@ -41,7 +41,7 @@ class Favourites extends Component {
         super(props);
         this.state = {
             show: false,
-            style:{
+            style: {
                 width: "0",
             },
         }
@@ -53,7 +53,7 @@ class Favourites extends Component {
             style: {
                 width: "250px",
             }
-        })
+        });
         document.getElementById("root").style.marginLeft = "250px";
     }
 
@@ -63,7 +63,7 @@ class Favourites extends Component {
             style: {
                 width: "0",
             }
-        })
+        });
         document.getElementById("root").style.marginLeft = "0";
     }
 
@@ -77,25 +77,25 @@ class Favourites extends Component {
 
     render() {
         return (
-                <li>
-                    <a className="link" onClick={e => this.handelClick()}>Favourites</a>
-                    <div className="sidenav" style={this.state.style}>
-                        <h4 style={{color:"#f1f1f1"}}>Favourites</h4>
-                        {
-                            this.props.books.length == 0?
+            <li className="link">
+                <a onClick={e => this.handelClick()}>Favourites</a>
+                <div className="sidenav" style={this.state.style}>
+                    <h4 style={{color: "#f1f1f1"}}>Favourites</h4>
+                    {
+                        this.props.books.length === 0 ?
                             <a>You don't have favourites!</a>
                             :
                             this.props.books.map((book, i) => {
                                 return (
                                     <FavouriteBook
-                                        key={"favbook"+i}
+                                        key={"favbook" + i}
                                         book={book}
                                     />
                                 );
                             })
-                        }
-                    </div>
-                </li>
+                    }
+                </div>
+            </li>
         );
     }
 }

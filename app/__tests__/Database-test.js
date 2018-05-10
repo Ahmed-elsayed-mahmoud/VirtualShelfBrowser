@@ -34,10 +34,10 @@ describe('Database tests', () => {
         book.ISBN = "1781100543";
         controller.fetchCurrentUserFavorites().then(function (favourites) {
             if (typeof favourites !== 'string') {
-                expect(favourites).toInclude(book.ISBN);
+                expect(favourites).toInclude(book);
             }
             else {
-                expect(true).toBe(false);
+                expect(true).not.toBe(true);
             }
         })
     });

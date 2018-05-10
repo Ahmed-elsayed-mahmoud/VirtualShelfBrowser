@@ -45,13 +45,13 @@ class Global extends Component {
     }
 
     setUser(user) {
-        this.setState({ user });
+        this.setState({user});
     }
 
     removeUser() {
         this.controller.signOut().then((status) => {
             if (status) {
-                this.setState({ user: null });
+                this.setState({user: null});
             }
             else {
                 console.log("Log out failed");
@@ -69,18 +69,15 @@ class Global extends Component {
                             <a className="navbar-brand" href="">Book Shelf Browser</a>
                         </div>
                         {
-                            !this.state.user?
-                            <ul className="nav navbar-nav navbar-right">
-                                <li className="link">
-                                    <a>Favourites</a>
-                                </li>
-                                <li className="link">
-                                    <a onClick={() => this.removeUser()}>Log Out</a>
-                                </li>
-                                <Favourites books={[{title:"hahah"}, {title:"lala"}]}/>
-                            </ul>
-                            :
-                            <SignComponent setUser={(user) => this.setUser(user)}/>
+                            this.state.user ?
+                                <ul className="nav navbar-nav navbar-right">
+                                    <Favourites books={[{title: "Harry Potter 1"}, {title: "Harry Potter 2"}]}/>
+                                    <li className="link">
+                                        <a onClick={() => this.removeUser()}>Log Out</a>
+                                    </li>
+                                </ul>
+                                :
+                                <SignComponent setUser={(user) => this.setUser(user)}/>
                         }
                     </div>
                 </div>
