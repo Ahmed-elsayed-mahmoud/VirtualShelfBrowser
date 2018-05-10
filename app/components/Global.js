@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col, Badge, Button} from 'react-bootstrap';
-
+import * as SweetAlert from 'sweetalert/dist/sweetalert.min';
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
 import User from '../model/User';
@@ -52,9 +52,11 @@ class Global extends Component {
         this.controller.signOut().then((status) => {
             if (status) {
                 this.setState({user: null});
+                swal("Successful", "Logged Out Successfully!", "success");
             }
             else {
                 console.log("Log out failed");
+                swal("Fail!", "Logged Out Failed!", "error");
             }
         });
     }
@@ -71,7 +73,8 @@ class Global extends Component {
                         {
                             this.state.user ?
                                 <ul className="nav navbar-nav navbar-right">
-                                    <Favourites books={[{title: "Harry Potter 1"}, {title: "Harry Potter 2"}]}/>
+                                    <Favourites books={[{title: "Harry Potter 1"}, {title: "Harry Potter 2"},
+                                                        {title: "Harry Potter 3"}, {title: "Harry Potter 4"}]}/>
                                     <li className="link">
                                         <a onClick={() => this.removeUser()}>Log Out</a>
                                     </li>
@@ -97,10 +100,10 @@ class Global extends Component {
                         <div className="panel panel-default">
                             <div className="panel-heading">
                                 <Row>
-                                    <span className="pull-left" style={{margin: '8px'}}>
+                                    <span className="text-center" style={{marginTop: '50px'}}>
                                         Results <Badge>{this.state.items.length}</Badge>
                                     </span>
-                                    <span className="pull-right">
+                                    <span className="text-center">
                                         <FilterPanel books={this.controller.filterBy()}
                                                      filter={this.filter.bind(this)} searchID={this.state.searchID}/>
                                     </span>

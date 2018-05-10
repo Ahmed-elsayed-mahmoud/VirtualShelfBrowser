@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import BookInfo from './BookInfo';
+import { Image, Row, Col } from 'react-bootstrap';
 
 class FavouriteBook extends Component {
     constructor(props, context) {
@@ -19,12 +20,21 @@ class FavouriteBook extends Component {
     }
 
     render() {
+        let alternate = 'http://www.tpsudan.gov.sd/resources/files/images/placeholder.png';
         let book = this.props.book;
 
         return (
             <div>
                 <a onClick={e => this.show()}>
-                    {book.title}
+                    <div className="row">
+                        <div className="col-xs-4">
+                            <img src={book.imageUrl ? book.imageUrl : alternate} className="img-thumbnail align-self-center"/>
+                        </div>
+                        <div className="col-xs-8"
+                             style={{ minHeight: '80px', display: 'flex', flexFlow: 'column wrap', justifyContent: 'center' }}>
+                            <span>{book.title}</span>
+                        </div>
+                    </div>
                 </a>
                 <BookInfo
                     book={this.props.book}
@@ -51,10 +61,10 @@ class Favourites extends Component {
         this.setState({show: true});
         this.setState({
             style: {
-                width: "250px",
+                width: "300px",
             }
         });
-        document.getElementById("root").style.marginLeft = "250px";
+        document.getElementById("root").style.marginLeft = "200px";
     }
 
     hide() {
@@ -80,7 +90,10 @@ class Favourites extends Component {
             <li className="link">
                 <a onClick={e => this.handelClick()}>Favourites</a>
                 <div className="sidenav" style={this.state.style}>
-                    <h4 style={{color: "#f1f1f1"}}>Favourites</h4>
+                    <div className="text-center" style={{ width: '260px', marginBottom: '15px' }}>
+                        <h4>Favourites</h4>
+                        <a className="closebtn" onClick={e => this.hide()}>&times;</a>
+                    </div>
                     {
                         this.props.books.length === 0 ?
                             <a>You don't have favourites!</a>
