@@ -22,6 +22,8 @@ class Global extends Component {
             user: null,
         };
         this.controller = Controller.getInstance();
+        this.setUser = this.setUser.bind(this);
+        this.removeUser = this.removeUser.bind(this);
     }
 
     search(bookQuery) {
@@ -42,6 +44,21 @@ class Global extends Component {
         });
     }
 
+    setUser(user) {
+        this.setState({ user });
+    }
+
+    removeUser() {
+        this.controller.signOut().then((status) => {
+            if (status) {
+                this.setState({ user: null });
+            }
+            else {
+                console.log("Log out failed");
+            }
+        });
+    }
+
     render() {
         return (
             // we are using className instead of class as in html because class is a reserved word in JavaScript
@@ -58,12 +75,12 @@ class Global extends Component {
                                     <a>Favourites</a>
                                 </li>
                                 <li className="link">
-                                    <a>Log Out</a>
+                                    <a onClick={() => this.removeUser()}>Log Out</a>
                                 </li>
                                 <Favourites books={this.state.user.favoriteBooks}/>
                             </ul>
                             :
-                            <SignComponent />
+                            <SignComponent setUser={(user) => this.setUser(user)}/>
                         }
                     </div>
                 </div>

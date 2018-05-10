@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {FormControl, HelpBlock, FormGroup, ControlLabel, Button, Modal} from 'react-bootstrap';
+import Controller from '../controller/Controller';
+import User from '../model/User';
 
 class SignInModal extends Component {
     constructor(props) {
@@ -15,7 +17,7 @@ class SignInModal extends Component {
     }
 
     signIn() {
-        if (this.state.email !== "" && this.state.email != "")
+        if (this.state.email !== "" && this.state.password !== "")
             this.props.signIn(this.state.email, this.state.password);
         // else // handle error
     }
@@ -83,7 +85,7 @@ class SignUpModal extends Component {
     }
 
     signUp() {
-        if (this.state.email !== "" && this.state.password1 != "")
+        if (this.state.email !== "" && this.state.password1 !== "")
             this.props.signUp(this.state.email, this.state.password1);
         // else // handle error
     }
@@ -100,14 +102,14 @@ class SignUpModal extends Component {
 
     validatePassword1() {
         const length = this.state.password1.length;
-        if (length < 8) return 'error';
-        if (length < 10) return 'warning';
+        if (length < 4) return 'error';
+        if (length < 6) return 'warning';
         return 'success';
     }
 
     validatePassword2() {
-        if (this.state.password1 != this.state.password2) return 'error';
-        if (this.state.password2 == "") return null;
+        if (this.state.password1 !== this.state.password2) return 'error';
+        if (this.state.password2 === "") return null;
         return 'success';
     }
 
@@ -165,7 +167,8 @@ class SignComponent extends Component {
         this.state = {
             showSignUp: false,
             showSignIn: false,
-        }
+        };
+        this.controller = Controller.getInstance();
     }
 
     showSignUp(show) {
@@ -177,11 +180,37 @@ class SignComponent extends Component {
     }
 
     signIn(email, password) {
-
+        let user = new User();
+        user.email = email;
+        user.password = password;
+        this.controller.signIn(user).then((status) => {
+            if (status) {
+                console.log("Logged In");
+                let newUser = this.controller.getCurrentSignedUser();
+                this.props.setUser(newUser);
+                console.log(newUser);
+            }
+            else {
+                console.log("Authentication Failed");
+            }
+        });
     }
 
     signUp(email, password) {
-
+        let user = new User();
+        user.email = email;
+        user.password = password;
+        this.controller.signUp(user).then((status) => {
+            if (status) {
+                console.log("Signed Up");
+                let newUser = this.controller.getCurrentSignedUser();
+                this.props.setUser(newUser);
+                console.log(newUser);
+            }
+            else {
+                console.log("Sign Up Failed");
+            }
+        });
     }
 
     render() {
