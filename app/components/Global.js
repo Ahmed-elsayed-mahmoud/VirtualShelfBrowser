@@ -50,13 +50,13 @@ class Global extends Component {
 
     removeUser() {
         this.controller.signOut().then((status) => {
-            if (status) {
-                this.setState({user: null});
-                swal("Successful", "Logged Out Successfully!", "success");
+            if (typeof status === "string") {
+                console.log("Log out failed");
+                swal("Fail!", status, "error");
             }
             else {
-                console.log("Log out failed");
-                swal("Fail!", "Logged Out Failed!", "error");
+                this.setState({user: null});
+                swal("Successful", "Logged Out Successfully!", "success");
             }
         });
     }

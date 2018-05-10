@@ -137,7 +137,6 @@ class SignUpModal extends Component {
     }
 
     enterKeyHandler(event) {
-        console.log(event);
         if (event.key === 'Enter') {
             this.signUp();
         }
@@ -216,16 +215,13 @@ class SignComponent extends Component {
         user.email = email;
         user.password = password;
         this.controller.signIn(user).then((status) => {
-            if (status) {
-                swal("Successful", "Logged in Successfully!", "success");
-                console.log("Logged In");
-                let newUser = this.controller.getCurrentSignedUser();
-                this.props.setUser(newUser);
-                console.log(newUser);
+            if (typeof status === "string") {
+                swal("Authentication Failed!", status, "error");
             }
             else {
-                console.log("Authentication Failed");
-                swal("Authentication Failed!", "Incorrect Email or Password!", "error");
+                swal("Successful", "Logged in Successfully!", "success");
+                let newUser = this.controller.getCurrentSignedUser();
+                this.props.setUser(newUser);
             }
         });
     }
@@ -235,16 +231,13 @@ class SignComponent extends Component {
         user.email = email;
         user.password = password;
         this.controller.signUp(user).then((status) => {
-            if (status) {
-                swal("Successful", "Your Account is Created!", "success");
-                console.log("Signed Up");
-                let newUser = this.controller.getCurrentSignedUser();
-                this.props.setUser(newUser);
-                console.log(newUser);
+            if (typeof status === "string") {
+                swal("Sign Up Failed!", status, "error");
             }
             else {
-                console.log("Sign Up Failed");
-                swal("Sign Up Failed!", "Email Already Exists!", "error");
+                swal("Successful", "Account Created Successfully!", "success");
+                let newUser = this.controller.getCurrentSignedUser();
+                this.props.setUser(newUser);
             }
         });
     }
