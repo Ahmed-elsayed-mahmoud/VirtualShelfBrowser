@@ -52,15 +52,12 @@ class Global extends Component {
                             <a className="navbar-brand" href="">Book Shelf Browser</a>
                         </div>
                         {
-                            this.state.user?
+                            !this.state.user?
                             <ul className="nav navbar-nav navbar-right">
-                                <li className="link">
-                                    <a>Favourites</a>
-                                </li>
                                 <li className="link">
                                     <a>Log Out</a>
                                 </li>
-                                <Favourites books={this.state.user.favoriteBooks}/>
+                                <Favourites books={[{title:"hahah"}, {title:"lala"}]}/>
                             </ul>
                             :
                             <SignComponent />
