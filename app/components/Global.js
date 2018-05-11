@@ -66,7 +66,7 @@ class Global extends Component {
 
     addToFavorites(book) {
         if (!this.state.user) {
-            // Show error modal
+            swal("User has to log in first!", "", "error");
             return;
         }
         // Add to local
@@ -79,6 +79,7 @@ class Global extends Component {
             })
             .catch(error => {
                 // Show error modal
+                swal("Cannot add to favorite :(", error, "error");
                 // Remove from local
                 delete this.state.favourites[book.ISBN];
                 this.forceUpdate();
@@ -87,7 +88,7 @@ class Global extends Component {
 
     removeFromFavorites(book) {
         if (!this.state.user) {
-            // Show error modal
+            swal("User Has Logged Out", "Log in again to continue", "error");
             return;
         }
         delete this.state.favourites[book.ISBN];
@@ -100,6 +101,7 @@ class Global extends Component {
             })
             .catch(error => {
                 // Show error modal
+                swal("Cannot remove to favorite :(", error, "error");
                 // Remove from local
                 this.state.favourites[book.ISBN] = book;
                 this.forceUpdate();
