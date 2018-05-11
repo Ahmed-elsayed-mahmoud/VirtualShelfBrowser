@@ -10,11 +10,11 @@ describe('Authentication tests', () => {
         user.email = "mohamed.adel647@gmail.com";
         user.password = "123456";
         controller.signUp(user).then(function (status) {
-            if (status) {
-                expect(status).toBe(true);
+            if (typeof status === "string") {
+                expect(status).toBe("The email address is already in use by another account.")
             }
             else {
-                expect(status).not.toBe(true);
+                expect(status).toBe(true);
             }
         });
     });
@@ -33,7 +33,7 @@ describe('Authentication tests', () => {
         user.email = "user";
         user.password = "123456";
         controller.signUp(user).then(function (status) {
-            expect(status).toBe(false);
+            expect(status).toBe("The email address is badly formatted.");
         });
     });
 
@@ -42,7 +42,7 @@ describe('Authentication tests', () => {
         user.email = "noUser@example.com";
         user.password = "123456";
         controller.signIn(user).then(function (status) {
-            expect(status).toBe(false);
+            expect(status).toBe("There is no user record corresponding to this identifier. The user may have been deleted.");
         });
     });
 

@@ -78,11 +78,13 @@ class Global extends Component {
         // Add to remote and fetch other updates
         this.controller.addToFavorites(book)
             .then((added) => {
-                console.log("added book to remote favs", book.title);
+                if (added) {
+                    console.log("added book to remote favs", book.title);
+                }
             })
             .catch(error => {
                 // Show error modal
-                swal("Cannot Add To Favorites :(", error, "error");
+                swal("Cannot Add To Favorites :(", error.message, "error");
                 // Remove from local
                 delete this.state.favorites[book.ISBN];
                 this.forceUpdate();
@@ -99,12 +101,13 @@ class Global extends Component {
         // Remove from remote and fetch other updates
         this.controller.removeFromFavorites(book)
             .then((removed) => {
-                if (removed)
+                if (removed) {
                     console.log("removed book from remote favs", book.title);
+                }
             })
             .catch(error => {
                 // Show error modal
-                swal("Cannot Remove From Favorites :(", error, "error");
+                swal("Cannot Remove From Favorites :(", error.message, "error");
                 // Remove from local
                 this.state.favorites[book.ISBN] = book;
                 this.forceUpdate();

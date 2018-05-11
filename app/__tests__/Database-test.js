@@ -20,7 +20,7 @@ describe('Database tests', () => {
         });
         controller.isFavorite(book).then(function (isFavourite) {
             expect(isFavourite).toBe(true);
-        })
+        });
     });
 
     it('test get all favourites', () => {
@@ -33,13 +33,10 @@ describe('Database tests', () => {
         let book = new Book();
         book.ISBN = "1781100543";
         controller.fetchCurrentUserFavorites().then(function (favourites) {
-            if (typeof favourites !== 'string') {
-                expect(favourites).toInclude(book);
-            }
-            else {
-                expect(true).not.toBe(true);
-            }
-        })
+            expect(favourites).toInclude(book);
+        }).catch(function (error) {
+            expect(true).not.toBe(true);
+        });
     });
 
     it('test add already existing book', () => {
@@ -78,7 +75,9 @@ describe('Database tests', () => {
         let book = new Book();
         book.ISBN = "9770916080";
         controller.addToFavorites(book).then(function (status) {
-            expect(status).toBe("User must log in first");
+            expect(true).not.toBe(true);
+        }).catch(function (error) {
+            expect(error.message).toBe("User must log in first");
         });
     });
 

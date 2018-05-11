@@ -130,7 +130,7 @@ class Controller {
             return ref.update(updates).then(function () {
                 return true;
             }).catch(function (error) {
-                return false;
+                throw error;
             });
         }
         else {
@@ -147,7 +147,7 @@ class Controller {
             return ref.child(book.ISBN).remove().then(function () {
                 return true;
             }).catch(function (error) {
-                return false;
+                throw error;
             });
         }
         else {
