@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Glyphicon} from 'react-bootstrap';
 import BookInfo from './BookInfo';
 
 class BookItem extends Component {
@@ -27,7 +28,10 @@ class BookItem extends Component {
             <div className="book-modal">
                 <a onClick={e => this.show()}>
                     <img src={book.imageUrl !== '' ? book.imageUrl : alternate} className="book-img" alt="book"/>
-                    <div className="book-text">{book.title}</div>
+                    <div className="book-text">
+                        { this.props.isFavorite(book)? <Glyphicon className="gold-star" glyph="star"/> : null}
+                        {book.title}
+                    </div>
                 </a>
                 <BookInfo
                     book={this.props.book}

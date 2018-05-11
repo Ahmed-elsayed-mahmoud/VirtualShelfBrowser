@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Row, Col, Badge, Button} from 'react-bootstrap';
+import {Row, Col, Badge, Button, Glyphicon} from 'react-bootstrap';
 
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
@@ -20,6 +20,7 @@ class Global extends Component {
             resultsCount: 0,
             items: [],
             user: null,
+            showFav: false,
             favourites: {}, // key: ISBN, value: Book object
         };
         this.controller = Controller.getInstance();
@@ -139,50 +140,58 @@ class Global extends Component {
                                 <li className="link">
                                     <a onClick={() => this.removeUser()}>Log Out</a>
                                 </li>
-                                <Favorites
-                                    books={Object.values(this.state.favourites)}
-                                    addToFavorites={b => this.addToFavorites(b)}
-                                    removeFromFavorites={b => this.removeFromFavorites(b)}
-                                    isFavorite={b => this.isFavorite(b)}
-                                />
+                                <li className="link">
+                                    <a onClick={e => this.setState({showFav : !this.state.showFav})}>
+                                        <Glyphicon className="gold-star" glyph="star"/> Favorites
+                                    </a>
+                                </li>
                             </ul>
                             :
                             <SignComponent setUser={(user) => this.setUser(user)}/>
                         }
                     </div>
                 </div>
-                <div className="Global">
-                    <h2>Book Shelf Browser</h2>
-                    {
-                        this.state.advanced ?
-                            <AdvancedSearch search={q => this.search(q)}/>
-                            :
-                            <GeneralSearch search={q => this.search(q)}/>
-                    }
-                    <Button bsStyle="link" style={{marginTop: '-10px'}}
-                            onClick={() => this.setState({advanced: !this.state.advanced})}>
-                        {this.state.advanced ? "General Search" : "Advanced Search"}
-                    </Button>
-                    <div className={this.state.resultsCount > 0 ? "" : "hidden"} style={{marginTop: '10px'}}>
-                        <div className="panel panel-default">
-                            <div className="panel-heading">
-                                <Row>
-                                    <span className="pull-left" style={{margin: '8px'}}>
-                                        Results <Badge>{this.state.items.length}</Badge>
-                                    </span>
-                                    <span className="pull-right">
-                                        <FilterPanel books={this.controller.filterBy()}
-                                                     filter={this.filter.bind(this)} searchID={this.state.searchID}/>
-                                    </span>
-                                </Row>
-                            </div>
-                            <div className="panel-body">
-                                <Gallery
-                                    items={this.state.items}
-                                    addToFavorites={b => this.addToFavorites(b)}
-                                    removeFromFavorites={b => this.removeFromFavorites(b)}
-                                    isFavorite={b => this.isFavorite(b)}
-                                />
+                <Favorites
+                    books={Object.values(this.state.favourites)}
+                    show={this.state.showFav}
+                    addToFavorites={b => this.addToFavorites(b)}
+                    removeFromFavorites={b => this.removeFromFavorites(b)}
+                    isFavorite={b => this.isFavorite(b)}
+                />
+                <div className="container">
+                    <div className="Global">
+                        <h2>Book Shelf Browser</h2>
+                        {
+                            this.state.advanced ?
+                                <AdvancedSearch search={q => this.search(q)}/>
+                                :
+                                <GeneralSearch search={q => this.search(q)}/>
+                        }
+                        <Button bsStyle="link" style={{marginTop: '-10px'}}
+                                onClick={() => this.setState({advanced: !this.state.advanced})}>
+                            {this.state.advanced ? "General Search" : "Advanced Search"}
+                        </Button>
+                        <div className={this.state.resultsCount > 0 ? "" : "hidden"} style={{marginTop: '10px'}}>
+                            <div className="panel panel-default">
+                                <div className="panel-heading">
+                                    <Row>
+                                        <span className="pull-left" style={{margin: '8px'}}>
+                                            Results <Badge>{this.state.items.length}</Badge>
+                                        </span>
+                                        <span className="pull-right">
+                                            <FilterPanel books={this.controller.filterBy()}
+                                                        filter={this.filter.bind(this)} searchID={this.state.searchID}/>
+                                        </span>
+                                    </Row>
+                                </div>
+                                <div className="panel-body">
+                                    <Gallery
+                                        items={this.state.items}
+                                        addToFavorites={b => this.addToFavorites(b)}
+                                        removeFromFavorites={b => this.removeFromFavorites(b)}
+                                        isFavorite={b => this.isFavorite(b)}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -66,7 +66,7 @@ class BookInfo extends Component {
             <Modal show={this.props.show} onHide={this.handleClose} keyboard>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        { isFav === true? <Glyphicon glyph="star"/> : null}
+                        { isFav === true? <Glyphicon className="gold-star" glyph="star"/> : null}
                         <a href={book.readUrl} target="#"> {book.title}</a>
                     </Modal.Title>
                 </Modal.Header>
