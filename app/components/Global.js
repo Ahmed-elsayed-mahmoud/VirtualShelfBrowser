@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col, Badge, Button, Glyphicon} from 'react-bootstrap';
-
+import * as SweetAlert from 'sweetalert/dist/sweetalert.min';
 import Controller from '../controller/Controller';
 import BookQuery from '../model/BookQuery';
 import User from '../model/User';
@@ -113,14 +113,13 @@ class Global extends Component {
 
     removeUser() {
         this.controller.signOut().then((status) => {
-            if (status) {
-                this.setState({
-                    user: null,
-                    favourites: {},
-                });
+            if (typeof status === "string") {
+                console.log("Log out failed");
+                swal("Fail!", status, "error");
             }
             else {
-                console.log("Log out failed");
+                this.setState({user: null});
+                swal("Successful", "Logged Out Successfully!", "success");
             }
         });
     }

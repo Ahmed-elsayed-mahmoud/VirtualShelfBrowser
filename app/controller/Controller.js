@@ -129,7 +129,7 @@ class Controller {
             updates[book.ISBN] = book;
             return ref.update(updates).then(function () {
                 return true;
-            }).catch(function () {
+            }).catch(function (error) {
                 return false;
             });
         }
@@ -146,7 +146,7 @@ class Controller {
             let ref = this.db.ref('users/' + user.uid);
             return ref.child(book.ISBN).remove().then(function () {
                 return true;
-            }).catch(function () {
+            }).catch(function (error) {
                 return false;
             });
         }
@@ -202,7 +202,7 @@ class Controller {
         return this.auth.signInWithEmailAndPassword(user.email, user.password).then(function () {
             return true;
         }).catch(function (error) {
-            return false;
+            return error.message;
         });
     }
 
@@ -210,7 +210,7 @@ class Controller {
         return this.auth.createUserWithEmailAndPassword(user.email, user.password).then(function () {
             return true;
         }).catch(function (error) {
-            return false;
+            return error.message;
         });
     }
 
@@ -218,7 +218,7 @@ class Controller {
         return this.auth.signOut().then(function () {
             return true;
         }).catch(function (error) {
-            return false;
+            return error.message;
         });
     }
 
@@ -234,7 +234,7 @@ class Controller {
             return user.updateEmail(email).then(function () {
                 return true;
             }).catch(function (error) {
-                return false;
+                return error.message;
             });
         }
     }

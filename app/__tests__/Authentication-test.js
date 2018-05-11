@@ -14,7 +14,7 @@ describe('Authentication tests', () => {
                 expect(status).toBe(true);
             }
             else {
-                expect(status).toBe(false);
+                expect(status).not.toBe(true);
             }
         });
     });

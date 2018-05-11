@@ -45,16 +45,16 @@ class BookInfo extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.book.ISBN === nextProps.book.ISBN)
-            return;
-        this.setState({ reviews: '' });
-        this.controller.selectBook(this.props.book.ISBN)
-            .then(json => {
-                this.setState({reviews: json["reviews_widget"]});
-            })
-            .catch(error => {
-                this.setState({reviews: ''});
-            });
+        if (nextProps.show) {
+            this.setState({reviews: ''});
+            this.controller.selectBook(this.props.book.ISBN)
+                .then(json => {
+                    this.setState({reviews: json["reviews_widget"]});
+                })
+                .catch(error => {
+                    this.setState({reviews: ''});
+                });
+        }
     }
 
     render() {
@@ -75,7 +75,7 @@ class BookInfo extends Component {
                         <Col xs={12} md={5}>
                             <a href={book.readUrl} target="_blank">
                                 <img src={book.imageUrl ? book.imageUrl : alternate} className="img-responsive"
-                                        alt="book cover"/>
+                                     alt="book cover"/>
                             </a>
                             <div style={{"margin-top": "10px", "margin-bottom": "10px"}}>
                                 {
