@@ -33,6 +33,10 @@ class BookItem extends Component {
                     book={this.props.book}
                     show={this.state.show}
                     hide={() => this.hide()}
+
+                    addToFavorites={b => this.props.addToFavorites(b)}
+                    removeFromFavorites={b => this.props.removeFromFavorites(b)}
+                    isFavorite={b => this.props.isFavorite(b)}
                 />
             </div>
         );
@@ -47,7 +51,12 @@ class Gallery extends Component {
                     this.props.items.map((item, index) => {
                         return (
                             <div className="book" key={index}>
-                                <BookItem book={item}/>
+                                <BookItem
+                                    book={item}
+                                    addToFavorites={b => this.props.addToFavorites(b)}
+                                    removeFromFavorites={b => this.props.removeFromFavorites(b)}
+                                    isFavorite={b => this.props.isFavorite(b)}
+                                />
                             </div>
                         )
                     })

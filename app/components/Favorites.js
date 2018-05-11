@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
+import {Glyphicon} from 'react-bootstrap';
 import BookInfo from './BookInfo';
 
-class FavouriteBook extends Component {
+class FavoriteBook extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -30,13 +31,17 @@ class FavouriteBook extends Component {
                     book={this.props.book}
                     show={this.state.show}
                     hide={() => this.hide()}
+
+                    addToFavorites={b => this.props.addToFavorites(b)}
+                    removeFromFavorites={b => this.props.removeFromFavorites(b)}
+                    isFavorite={b => this.props.isFavorite(b)}
                 />
             </div>
         );
     }
 }
 
-class Favourites extends Component {
+class Favorites extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,18 +83,22 @@ class Favourites extends Component {
     render() {
         return (
                 <li>
-                    <a className="link" onClick={e => this.handelClick()}>Favourites</a>
+                    <a className="link" onClick={e => this.handelClick()}>Favorites</a>
                     <div className="sidenav" style={this.state.style}>
-                        <h4 style={{color:"#f1f1f1"}}>Favourites</h4>
+                        <h4 style={{color:"#f1f1f1"}}>Favorites</h4>
                         {
                             this.props.books.length == 0?
-                            <a>You don't have favourites!</a>
+                            <a>You don't have Favorites!</a>
                             :
                             this.props.books.map((book, i) => {
                                 return (
-                                    <FavouriteBook
+                                    <FavoriteBook
                                         key={"favbook"+i}
                                         book={book}
+
+                                        addToFavorites={b => this.props.addToFavorites(b)}
+                                        removeFromFavorites={b => this.props.removeFromFavorites(b)}
+                                        isFavorite={b => this.props.isFavorite(b)}
                                     />
                                 );
                             })
@@ -100,4 +109,4 @@ class Favourites extends Component {
     }
 }
 
-export {Favourites};
+export {Favorites};

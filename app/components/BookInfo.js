@@ -2,6 +2,21 @@ import React, {Component} from 'react';
 import {Modal, Col, Row, Glyphicon, Button} from 'react-bootstrap';
 import Controller from '../controller/Controller';
 
+class ErrorModal extends Component {
+    render() {
+        return (
+            <Modal show={this.props.show} onHide={this.handleClose} keyboard>
+                <Modal.Header closeButton>
+                    Error
+                </Modal.Header>
+                <Modal.Body>
+                    {this.props.error}
+                </Modal.Body>
+            </Modal>
+        );
+    }
+}
+
 class BookInfo extends Component {
     constructor(props, context) {
         super(props, context);
@@ -10,12 +25,23 @@ class BookInfo extends Component {
         this.controller = Controller.getInstance();
 
         this.state = {
-            reviews: ''
+            reviews: '',
+            error: false,
         };
     }
 
     handleClose() {
         this.props.hide();
+    }
+
+    addToFavorites() {
+        this.props.addToFavorites(this.props.book);
+        this.forceUpdate();
+    }
+
+    removeFromFavorites() {
+        this.props.removeFromFavorites(this.props.book);
+        this.forceUpdate();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -34,13 +60,15 @@ class BookInfo extends Component {
     render() {
         let alternate = 'http://www.tpsudan.gov.sd/resources/files/images/placeholder.png';
         let book = this.props.book;
+        let isFav = this.props.isFavorite(book);
 
         return (
             <Modal show={this.props.show} onHide={this.handleClose} keyboard>
                 <Modal.Header closeButton>
-                    <a href={book.readUrl} target="_blank">
-                        <Modal.Title>{book.title}</Modal.Title>
-                    </a>
+                    <Modal.Title>
+                        { isFav === true? <Glyphicon glyph="star"/> : null}
+                        <a href={book.readUrl} target="#"> {book.title}</a>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
@@ -49,6 +77,20 @@ class BookInfo extends Component {
                                 <img src={book.imageUrl ? book.imageUrl : alternate} className="img-responsive"
                                         alt="book cover"/>
                             </a>
+                            <div style={{"margin-top": "10px", "margin-bottom": "10px"}}>
+                                {
+                                    isFav === true?
+                                        <div className="btn btn-block btn-danger" onClick={e => this.removeFromFavorites()}>
+                                            <Glyphicon glyph="trash"/> remove from favorites
+                                        </div>
+                                    :
+                                    isFav === false?
+                                        <div className="btn btn-block btn-success" onClick={e => this.addToFavorites()}>
+                                            <Glyphicon glyph="star-empty"/> add to favorites
+                                        </div>
+                                    : null
+                                }
+                            </div>
                             <div className="panel panel-warning">
                                 <div className="panel-heading">Rate: {book.rate}</div>
                             </div>

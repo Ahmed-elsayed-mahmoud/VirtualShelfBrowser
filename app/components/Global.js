@@ -8,7 +8,7 @@ import Gallery from './Gallery';
 import FilterPanel from './FilterPanel';
 import {AdvancedSearch, GeneralSearch} from './SearchPanel';
 import {SignComponent, SignInModal, SignUpModal} from './SignComponent';
-import {Favourites} from './Favourites';
+import {Favorites} from './Favorites';
 
 class Global extends Component {
 
@@ -20,6 +20,7 @@ class Global extends Component {
             resultsCount: 0,
             items: [],
             user: null,
+            favourites: {}, // key: ISBN, value: Book object
         };
         this.controller = Controller.getInstance();
         this.setUser = this.setUser.bind(this);
@@ -44,14 +45,78 @@ class Global extends Component {
         });
     }
 
+    fetchFavorites() {
+        this.controller.fetchCurrentUserFavorites()
+            .then((favourites) => {
+                let fav = {};
+                favourites.forEach(book => {
+                    fav[book.ISBN] = book;
+                });
+                this.setState({ favourites: fav });
+            })
+            .catch((error) => {
+                this.setState({ favourites: {} });
+            })
+    }
+
+    isFavorite(book) {
+        return book.ISBN in this.state.favourites;
+    }
+
+    addToFavorites(book) {
+        if (!this.state.user) {
+            // Show error modal
+            return;
+        }
+        // Add to local
+        this.state.favourites[book.ISBN] = book;
+        this.forceUpdate();
+        // Add to remote and fetch other updates
+        this.controller.addToFavorites(book)
+            .then((added) => {
+                this.fetchFavorites();
+            })
+            .catch(error => {
+                // Show error modal
+                // Remove from local
+                delete this.state.favourites[book.ISBN];
+                this.forceUpdate();
+            });
+    }
+
+    removeFromFavorites(book) {
+        if (!this.state.user) {
+            // Show error modal
+            return;
+        }
+        delete this.state.favourites[book.ISBN];
+        this.forceUpdate();
+        // Remove from remote and fetch other updates
+        this.controller.removeFromFavorites(book)
+            .then((removed) => {
+                if (removed)
+                    this.fetchFavorites();
+            })
+            .catch(error => {
+                // Show error modal
+                // Remove from local
+                this.state.favourites[book.ISBN] = book;
+                this.forceUpdate();
+            });
+    }
+
     setUser(user) {
+        this.fetchFavorites();
         this.setState({ user });
     }
 
     removeUser() {
         this.controller.signOut().then((status) => {
             if (status) {
-                this.setState({ user: null });
+                this.setState({
+                    user: null,
+                    favourites: {},
+                });
             }
             else {
                 console.log("Log out failed");
@@ -69,15 +134,17 @@ class Global extends Component {
                             <a className="navbar-brand" href="">Book Shelf Browser</a>
                         </div>
                         {
-                            !this.state.user?
+                            this.state.user?
                             <ul className="nav navbar-nav navbar-right">
-                                <li className="link">
-                                    <a>Favourites</a>
-                                </li>
                                 <li className="link">
                                     <a onClick={() => this.removeUser()}>Log Out</a>
                                 </li>
-                                <Favourites books={[{title:"hahah"}, {title:"lala"}]}/>
+                                <Favorites
+                                    books={Object.values(this.state.favourites)}
+                                    addToFavorites={b => this.addToFavorites(b)}
+                                    removeFromFavorites={b => this.removeFromFavorites(b)}
+                                    isFavorite={b => this.isFavorite(b)}
+                                />
                             </ul>
                             :
                             <SignComponent setUser={(user) => this.setUser(user)}/>
@@ -110,7 +177,12 @@ class Global extends Component {
                                 </Row>
                             </div>
                             <div className="panel-body">
-                                <Gallery items={this.state.items}/>
+                                <Gallery
+                                    items={this.state.items}
+                                    addToFavorites={b => this.addToFavorites(b)}
+                                    removeFromFavorites={b => this.removeFromFavorites(b)}
+                                    isFavorite={b => this.isFavorite(b)}
+                                />
                             </div>
                         </div>
                     </div>
