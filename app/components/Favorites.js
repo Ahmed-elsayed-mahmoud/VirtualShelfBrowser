@@ -20,16 +20,26 @@ class FavoriteBook extends Component {
     }
 
     render() {
+        let alternate = 'http://www.tpsudan.gov.sd/resources/files/images/placeholder.png';
         let book = this.props.book;
 
         return (
-            <div>
-                <a className="link" onClick={e => this.show()}><Glyphicon className="gold-star" glyph="star"/> {book.title}</a>
+            <div className="link">
+                <a onClick={e => this.show()}>
+                    <div className="row">
+                        <div className="col-xs-4">
+                            <img src={book.imageUrl ? book.imageUrl : alternate} className="img-thumbnail align-self-center"/>
+                        </div>
+                        <div className="col-xs-8"
+                             style={{ minHeight: '80px', display: 'flex', flexFlow: 'column wrap', justifyContent: 'center' }}>
+                            <span>{book.title}</span>
+                        </div>
+                    </div>
+                </a>
                 <BookInfo
                     book={this.props.book}
                     show={this.state.show}
                     hide={() => this.hide()}
-
                     addToFavorites={b => this.props.addToFavorites(b)}
                     removeFromFavorites={b => this.props.removeFromFavorites(b)}
                     isFavorite={b => this.props.isFavorite(b)}
@@ -54,27 +64,29 @@ class Favorites extends Component {
             document.getElementById("root").style.marginLeft = "0";
         }
         return (
-                <div>
-                    <div className="sidenav" style={style}>
-                        {
-                            this.props.books.length == 0?
-                            <a>You don't have Favorites!</a>
-                            :
-                            this.props.books.map((book, i) => {
-                                return (
-                                    <FavoriteBook
-                                        key={"favbook"+i}
-                                        book={book}
-
-                                        addToFavorites={b => this.props.addToFavorites(b)}
-                                        removeFromFavorites={b => this.props.removeFromFavorites(b)}
-                                        isFavorite={b => this.props.isFavorite(b)}
-                                    />
-                                );
-                            })
-                        }
-                    </div>
+            <div className="sidenav" style={style}>
+                <div className="text-center" style={{ width: '260px', marginBottom: '15px' }}>
+                    <h4><Glyphicon className="gold-star" glyph="star"/> Favorites</h4>
+                    <a className="closebtn" onClick={e => this.hide()}>&times;</a>
                 </div>
+                {
+                    this.props.books.length === 0 ?
+                        <a>You don't have favourites!</a>
+                        :
+                        this.props.books.map((book, i) => {
+                            return (
+                                <FavoriteBook
+                                    key={"favbook" + book.ISBN}
+                                    book={book}
+
+                                    addToFavorites={b => this.props.addToFavorites(b)}
+                                    removeFromFavorites={b => this.props.removeFromFavorites(b)}
+                                    isFavorite={b => this.props.isFavorite(b)}
+                                />
+                            );
+                        })
+                }
+            </div>
         );
     }
 }
