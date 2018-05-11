@@ -67,7 +67,7 @@ class Favorites extends Component {
             <div className="sidenav" style={style}>
                 <div className="text-center" style={{ width: '260px', marginBottom: '15px' }}>
                     <h4><Glyphicon className="gold-star" glyph="star"/> Favorites</h4>
-                    <a className="closebtn" onClick={e => this.hide()}>&times;</a>
+                    <a className="closebtn" onClick={e => this.props.hide()}>&times;</a>
                 </div>
                 {
                     this.props.books.length === 0 ?

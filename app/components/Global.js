@@ -156,6 +156,7 @@ class Global extends Component {
                     addToFavorites={b => this.addToFavorites(b)}
                     removeFromFavorites={b => this.removeFromFavorites(b)}
                     isFavorite={b => this.isFavorite(b)}
+                    hide={() => this.setState({showFav : false})}
                 />
                 <div className="container">
                     <div className="Global">
