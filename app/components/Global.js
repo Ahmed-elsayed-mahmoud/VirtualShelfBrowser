@@ -21,7 +21,7 @@ class Global extends Component {
             items: [],
             user: null,
             showFav: false,
-            favourites: {}, // key: ISBN, value: Book object
+            favorites: {}, // key: ISBN, value: Book object
         };
         this.controller = Controller.getInstance();
         this.setUser = this.setUser.bind(this);
@@ -48,20 +48,20 @@ class Global extends Component {
 
     fetchFavorites() {
         this.controller.fetchCurrentUserFavorites()
-            .then((favourites) => {
+            .then((favorites) => {
                 let fav = {};
-                favourites.forEach(book => {
+                favorites.forEach(book => {
                     fav[book.ISBN] = book;
                 });
-                this.setState({ favourites: fav });
+                this.setState({ favorites: fav });
             })
             .catch((error) => {
-                this.setState({ favourites: {} });
+                this.setState({ favorites: {} });
             })
     }
 
     isFavorite(book) {
-        return book.ISBN in this.state.favourites;
+        return book.ISBN in this.state.favorites;
     }
 
     addToFavorites(book) {
@@ -70,7 +70,7 @@ class Global extends Component {
             return;
         }
         // Add to local
-        this.state.favourites[book.ISBN] = book;
+        this.state.favorites[book.ISBN] = book;
         this.forceUpdate();
         // Add to remote and fetch other updates
         this.controller.addToFavorites(book)
@@ -81,7 +81,7 @@ class Global extends Component {
                 // Show error modal
                 swal("Cannot Add To Favorites :(", error, "error");
                 // Remove from local
-                delete this.state.favourites[book.ISBN];
+                delete this.state.favorites[book.ISBN];
                 this.forceUpdate();
             });
     }
@@ -91,7 +91,7 @@ class Global extends Component {
             swal("User Has Logged Out!", "Log in again to continue", "error");
             return;
         }
-        delete this.state.favourites[book.ISBN];
+        delete this.state.favorites[book.ISBN];
         this.forceUpdate();
         // Remove from remote and fetch other updates
         this.controller.removeFromFavorites(book)
@@ -103,14 +103,16 @@ class Global extends Component {
                 // Show error modal
                 swal("Cannot Remove From Favorites :(", error, "error");
                 // Remove from local
-                this.state.favourites[book.ISBN] = book;
+                this.state.favorites[book.ISBN] = book;
                 this.forceUpdate();
             });
     }
 
     setUser(user) {
+        this.setState({
+            user, showFav: false
+        });
         this.fetchFavorites();
-        this.setState({ user });
     }
 
     removeUser() {
@@ -120,7 +122,7 @@ class Global extends Component {
                 swal("Fail!", status, "error");
             }
             else {
-                this.setState({user: null});
+                this.setUser(null);
                 swal("Successful", "Logged Out Successfully!", "success");
             }
         });
@@ -153,7 +155,7 @@ class Global extends Component {
                     </div>
                 </div>
                 <Favorites
-                    books={Object.values(this.state.favourites)}
+                    books={Object.values(this.state.favorites)}
                     show={this.state.showFav}
                     addToFavorites={b => this.addToFavorites(b)}
                     removeFromFavorites={b => this.removeFromFavorites(b)}
