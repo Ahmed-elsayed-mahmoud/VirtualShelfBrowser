@@ -135,7 +135,7 @@ class Controller {
         }
         else {
             return new Promise(function (resolve, reject) {
-                resolve("User must log in first");
+                reject("User must log in first");
             });
         }
     }
@@ -152,7 +152,7 @@ class Controller {
         }
         else {
             return new Promise(function (resolve, reject) {
-                resolve("User must log in first");
+                reject("User must log in first");
             });
         }
     }
@@ -168,12 +168,12 @@ class Controller {
                 });
                 return favorites;
             }).catch(function (error) {
-                return "Error";
+                throw error;
             });
         }
         else {
             return new Promise(function (resolve, reject) {
-                resolve("User must log in first");
+                reject("User must log in first");
             });
         }
     }
@@ -188,12 +188,12 @@ class Controller {
                 }
                 return false;
             }).catch(function (error) {
-                return "Error";
+                throw error;
             });
         }
         else {
             return new Promise(function (resolve, reject) {
-                resolve("User must log in first");
+                reject("User must log in first");
             });
         }
     }
