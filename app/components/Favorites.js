@@ -58,20 +58,20 @@ class Favorites extends Component {
         let style = {};
         if (this.props.show) {
             style = { width: "250px"};
-            document.getElementById("root").style.marginLeft = "260px";
+            document.getElementById("root").style.marginLeft = "200px";
         } else {
             style = { width: "0"};
             document.getElementById("root").style.marginLeft = "0";
         }
         return (
             <div className="sidenav" style={style}>
-                <div className="text-center" style={{ width: '260px', marginBottom: '15px' }}>
-                    <h4><Glyphicon className="gold-star" glyph="star"/> Favorites</h4>
+                <div className="text-center" style={{ width: '250px', marginBottom: '15px' }}>
+                    <h4><Glyphicon className="gold-star" glyph="star" style={{ fontSize: '20px' }}/> Favorites</h4>
                     <a className="closebtn" onClick={e => this.props.hide()}>&times;</a>
                 </div>
                 {
                     this.props.books.length === 0 ?
-                        <a>You don't have favourites!</a>
+                        <a className="text-center">You don't have favourites!</a>
                         :
                         this.props.books.map((book, i) => {
                             return (

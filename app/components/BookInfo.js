@@ -81,12 +81,12 @@ class BookInfo extends Component {
                                 {
                                     isFav === true?
                                         <div className="btn btn-block btn-danger" onClick={e => this.removeFromFavorites()}>
-                                            <Glyphicon glyph="trash"/> remove from favorites
+                                            <Glyphicon glyph="trash"/> Remove from favorites
                                         </div>
                                     :
                                     isFav === false?
                                         <div className="btn btn-block btn-success" onClick={e => this.addToFavorites()}>
-                                            <Glyphicon glyph="star-empty"/> add to favorites
+                                            <Glyphicon glyph="star-empty"/> Add to favorites
                                         </div>
                                     : null
                                 }

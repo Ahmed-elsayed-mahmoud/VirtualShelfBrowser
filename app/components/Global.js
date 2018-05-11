@@ -66,7 +66,7 @@ class Global extends Component {
 
     addToFavorites(book) {
         if (!this.state.user) {
-            swal("User has to log in first!", "", "error");
+            swal("User Must Log In First!", "Log in to use favorites", "error");
             return;
         }
         // Add to local
@@ -79,7 +79,7 @@ class Global extends Component {
             })
             .catch(error => {
                 // Show error modal
-                swal("Cannot add to favorite :(", error, "error");
+                swal("Cannot Add To Favorites :(", error, "error");
                 // Remove from local
                 delete this.state.favourites[book.ISBN];
                 this.forceUpdate();
@@ -88,7 +88,7 @@ class Global extends Component {
 
     removeFromFavorites(book) {
         if (!this.state.user) {
-            swal("User Has Logged Out", "Log in again to continue", "error");
+            swal("User Has Logged Out!", "Log in again to continue", "error");
             return;
         }
         delete this.state.favourites[book.ISBN];
@@ -101,7 +101,7 @@ class Global extends Component {
             })
             .catch(error => {
                 // Show error modal
-                swal("Cannot remove to favorite :(", error, "error");
+                swal("Cannot Remove From Favorites :(", error, "error");
                 // Remove from local
                 this.state.favourites[book.ISBN] = book;
                 this.forceUpdate();
@@ -139,12 +139,12 @@ class Global extends Component {
                             this.state.user?
                             <ul className="nav navbar-nav navbar-right">
                                 <li className="link">
-                                    <a onClick={() => this.removeUser()}>Log Out</a>
-                                </li>
-                                <li className="link">
                                     <a onClick={e => this.setState({showFav : !this.state.showFav})}>
                                         <Glyphicon className="gold-star" glyph="star"/> Favorites
                                     </a>
+                                </li>
+                                <li className="link">
+                                    <a onClick={() => this.removeUser()}>Log Out</a>
                                 </li>
                             </ul>
                             :
