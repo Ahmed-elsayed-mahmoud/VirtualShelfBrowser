@@ -75,7 +75,7 @@ class Global extends Component {
         // Add to remote and fetch other updates
         this.controller.addToFavorites(book)
             .then((added) => {
-                this.fetchFavorites();
+                console.log("added book to remote favs", book.title);
             })
             .catch(error => {
                 // Show error modal
@@ -97,7 +97,7 @@ class Global extends Component {
         this.controller.removeFromFavorites(book)
             .then((removed) => {
                 if (removed)
-                    this.fetchFavorites();
+                    console.log("removed book from remote favs", book.title);
             })
             .catch(error => {
                 // Show error modal
