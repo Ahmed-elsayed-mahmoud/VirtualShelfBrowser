@@ -115,8 +115,10 @@ class Global extends Component {
     }
 
     setUser(user) {
-        this.setState({ user });
-        console.log("here");
+        this.setState({
+            user,
+            showFav: false,
+        });
         this.fetchFavorites();
     }
 
