@@ -11,7 +11,9 @@ class SignInModal extends Component {
         this.state = {
             email: "",
             password: "",
-        }
+            isLoading: false
+        };
+        this.signIn = this.signIn.bind(this);
     }
 
     reset() {
@@ -20,7 +22,10 @@ class SignInModal extends Component {
 
     signIn() {
         if (this.state.email !== "" && this.state.password !== "") {
-            this.props.signIn(this.state.email, this.state.password);
+            this.setState({ isLoading: true });
+            this.props.signIn(this.state.email, this.state.password).then(() => {
+                this.setState({ isLoading: false });
+            });
         }
         // else // handle error
         else {
@@ -45,6 +50,7 @@ class SignInModal extends Component {
     }
 
     render() {
+        const { isLoading } = this.state;
         return (
             <Modal show={this.props.show} onHide={() => this.handleShow(false)} keyboard>
                 <Modal.Header closeButton>
@@ -75,7 +81,11 @@ class SignInModal extends Component {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={e => this.signIn()} bsStyle="primary">Sign in</Button>
+                    <Button onClick={!isLoading ? this.signIn : null}
+                            disabled={isLoading}
+                            bsStyle="primary">
+                        {isLoading ? 'Loading...' : 'Sign in'}
+                    </Button>
                     <Button onClick={e => this.signUp()}>Sign up</Button>
                 </Modal.Footer>
             </Modal>
@@ -86,12 +96,13 @@ class SignInModal extends Component {
 class SignUpModal extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             email: "",
             password1: "",
             password2: "",
-        }
+            isLoading: false
+        };
+        this.signUp = this.signUp.bind(this);
     }
 
     reset() {
@@ -101,7 +112,10 @@ class SignUpModal extends Component {
     signUp() {
         if (this.state.email !== "" && this.state.password1 !== "") {
             if (this.state.password1 === this.state.password2) {
-                this.props.signUp(this.state.email, this.state.password1);
+                this.setState({ isLoading: true });
+                this.props.signUp(this.state.email, this.state.password1).then(() => {
+                    this.setState({ isLoading: false });
+                });
             }
             else {
                 swal("Invalid Input", "Password Mismatch!", "error");
@@ -143,6 +157,7 @@ class SignUpModal extends Component {
     }
 
     render() {
+        const { isLoading } = this.state;
         return (
             <Modal show={this.props.show} onHide={() => this.handleShow(false)} keyboard>
                 <Modal.Header closeButton>
@@ -183,7 +198,11 @@ class SignUpModal extends Component {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={e => this.signUp()} bsStyle="primary">Sign up</Button>
+                    <Button onClick={!isLoading ? this.signUp : null}
+                            disabled={isLoading}
+                            bsStyle="primary">
+                        {isLoading ? 'Loading...' : 'Sign up'}
+                    </Button>
                     <Button onClick={e => this.signIn()}>Sign in</Button>
                 </Modal.Footer>
             </Modal>
@@ -214,7 +233,7 @@ class SignComponent extends Component {
         let user = new User();
         user.email = email;
         user.password = password;
-        this.controller.signIn(user).then((status) => {
+        return this.controller.signIn(user).then((status) => {
             if (typeof status === "string") {
                 swal("Authentication Failed!", status, "error");
             }
@@ -230,7 +249,7 @@ class SignComponent extends Component {
         let user = new User();
         user.email = email;
         user.password = password;
-        this.controller.signUp(user).then((status) => {
+        return this.controller.signUp(user).then((status) => {
             if (typeof status === "string") {
                 swal("Sign Up Failed!", status, "error");
             }
