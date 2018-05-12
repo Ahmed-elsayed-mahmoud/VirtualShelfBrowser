@@ -66,7 +66,7 @@ class BookInfo extends Component {
             <Modal show={this.props.show} onHide={this.handleClose} keyboard>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        { isFav === true? <Glyphicon className="gold-star" glyph="star"/> : null}
+                        {isFav === true ? <Glyphicon className="gold-star" glyph="star"/> : null}
                         <a href={book.readUrl} target="#"> {book.title}</a>
                     </Modal.Title>
                 </Modal.Header>
@@ -79,16 +79,18 @@ class BookInfo extends Component {
                             </a>
                             <div style={{"margin-top": "10px", "margin-bottom": "10px"}}>
                                 {
-                                    isFav === true?
-                                        <div className="btn btn-block btn-danger" onClick={e => this.removeFromFavorites()}>
+                                    isFav === true ?
+                                        <div className="btn btn-block btn-danger"
+                                             onClick={e => this.removeFromFavorites()}>
                                             <Glyphicon glyph="trash"/> Remove from favorites
                                         </div>
-                                    :
-                                    isFav === false?
-                                        <div className="btn btn-block btn-success" onClick={e => this.addToFavorites()}>
-                                            <Glyphicon glyph="star-empty"/> Add to favorites
-                                        </div>
-                                    : null
+                                        :
+                                        isFav === false ?
+                                            <div className="btn btn-block btn-success"
+                                                 onClick={e => this.addToFavorites()}>
+                                                <Glyphicon glyph="star-empty"/> Add to favorites
+                                            </div>
+                                            : null
                                 }
                             </div>
                             <div className="panel panel-warning">

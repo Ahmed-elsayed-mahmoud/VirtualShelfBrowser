@@ -21,6 +21,7 @@ class Global extends Component {
             items: [],
             user: null,
             showFav: false,
+            isLoadingFav: false,
             favorites: {}, // key: ISBN, value: Book object
         };
         this.controller = Controller.getInstance();
@@ -48,6 +49,7 @@ class Global extends Component {
 
     fetchFavorites() {
         console.log("fetch");
+        this.setState({ favorites: {}, isLoadingFav: true });
         this.controller.fetchCurrentUserFavorites()
             .then((favorites) => {
                 console.log("fetched");
@@ -55,11 +57,11 @@ class Global extends Component {
                 favorites.forEach(book => {
                     fav[book.ISBN] = book;
                 });
-                this.setState({ favorites: fav });
+                this.setState({ favorites: fav, isLoadingFav: false  });
             })
             .catch((error) => {
                 console.log("error");
-                this.setState({ favorites: {} });
+                this.setState({ favorites: {}, isLoadingFav: false });
             })
     }
 
@@ -164,9 +166,11 @@ class Global extends Component {
                 <Favorites
                     books={Object.values(this.state.favorites)}
                     show={this.state.showFav}
+                    isLoading={this.state.isLoadingFav}
                     addToFavorites={b => this.addToFavorites(b)}
                     removeFromFavorites={b => this.removeFromFavorites(b)}
                     isFavorite={b => this.isFavorite(b)}
+                    fetchFavorites={() => this.fetchFavorites()}
                     hide={() => this.setState({showFav : false})}
                 />
                 <div className="container">

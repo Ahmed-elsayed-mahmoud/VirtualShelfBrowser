@@ -29,7 +29,7 @@ class BookItem extends Component {
                 <a onClick={e => this.show()}>
                     <img src={book.imageUrl !== '' ? book.imageUrl : alternate} className="book-img" alt="book"/>
                     <div className="book-text">
-                        { this.props.isFavorite(book)? <Glyphicon className="gold-star" glyph="star"/> : null}
+                        {this.props.isFavorite(book) ? <Glyphicon className="gold-star" glyph="star"/> : null}
                         {book.title}
                     </div>
                 </a>

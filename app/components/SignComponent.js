@@ -22,9 +22,9 @@ class SignInModal extends Component {
 
     signIn() {
         if (this.state.email !== "" && this.state.password !== "") {
-            this.setState({ isLoading: true });
+            this.setState({isLoading: true});
             this.props.signIn(this.state.email, this.state.password).then(() => {
-                this.setState({ isLoading: false });
+                this.setState({isLoading: false});
             });
         }
         // else // handle error
@@ -50,7 +50,7 @@ class SignInModal extends Component {
     }
 
     render() {
-        const { isLoading } = this.state;
+        const {isLoading} = this.state;
         return (
             <Modal show={this.props.show} onHide={() => this.handleShow(false)} keyboard>
                 <Modal.Header closeButton>
@@ -112,9 +112,9 @@ class SignUpModal extends Component {
     signUp() {
         if (this.state.email !== "" && this.state.password1 !== "") {
             if (this.state.password1 === this.state.password2) {
-                this.setState({ isLoading: true });
+                this.setState({isLoading: true});
                 this.props.signUp(this.state.email, this.state.password1).then(() => {
-                    this.setState({ isLoading: false });
+                    this.setState({isLoading: false});
                 });
             }
             else {
@@ -157,7 +157,7 @@ class SignUpModal extends Component {
     }
 
     render() {
-        const { isLoading } = this.state;
+        const {isLoading} = this.state;
         return (
             <Modal show={this.props.show} onHide={() => this.handleShow(false)} keyboard>
                 <Modal.Header closeButton>
